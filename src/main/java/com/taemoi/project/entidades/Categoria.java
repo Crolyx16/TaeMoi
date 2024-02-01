@@ -10,16 +10,16 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Categoria {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String nombre;
-    private int edadMinima;
-    private int edadMaxima;
+	private String nombre;
+	private int edadMinima;
+	private int edadMaxima;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Alumno> alumnos;
+	@OneToMany(mappedBy = "categoria")
+	private List<Alumno> alumnos;
 
 	public Long getId() {
 		return id;
@@ -60,5 +60,5 @@ public class Categoria {
 	public void setAlumnos(List<Alumno> alumnos) {
 		this.alumnos = alumnos;
 	}
- 
+
 }

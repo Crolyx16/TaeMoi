@@ -20,23 +20,22 @@ public class Pago {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@ManyToOne
+	@JoinColumn(name = "alumno_id")
+	private Alumno alumno;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    private Alumno alumno;
+	@Column(name = "numero_expediente_alumno")
+	private String numeroExpedienteAlumno;
 
-    @Column(name = "numero_expediente_alumno")
-    private String numeroExpedienteAlumno;
+	private String concepto;
 
-    private String concepto;
-    
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+	@Temporal(TemporalType.DATE)
+	private Date fecha;
 
-    private Double cuantia;
+	private Double cuantia;
 
-    @Enumerated(EnumType.STRING)
-    private EstadoPago estado;
+	@Enumerated(EnumType.STRING)
+	private EstadoPago estado;
 
 	public Long getId() {
 		return id;

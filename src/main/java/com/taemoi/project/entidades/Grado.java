@@ -10,17 +10,17 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Grado {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String nombre;
+	private String nombre;
 
-    @OneToMany(mappedBy = "grado")
-    private List<Alumno> alumnos;
+	@OneToMany(mappedBy = "grado")
+	private List<Alumno> alumnos;
 
-    @OneToMany(mappedBy = "grado")
-    private List<Examen> examenes;
+	@OneToMany(mappedBy = "grado")
+	private List<Examen> examenes;
 
 	public Long getId() {
 		return id;
@@ -53,6 +53,5 @@ public class Grado {
 	public void setExamenes(List<Examen> examenes) {
 		this.examenes = examenes;
 	}
-
 
 }

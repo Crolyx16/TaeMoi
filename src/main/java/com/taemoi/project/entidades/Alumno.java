@@ -13,50 +13,58 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Alumno {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String nombre;
-    private String apellidos;
-    
-    @Column(unique = true)
-    private String numeroExpediente;
-    
-    private Date fechaNacimiento;
-    
-    private String nif;
-    
-    private String direccion;
-    
-    private Integer telefono;
-    
-    private String email;
-    
-    @Enumerated(EnumType.STRING)
-    private TipoTarifa tipoTarifa;
+	private String nombre;
+	private String apellidos;
 
-    private Double cuantiaTarifa;
-    
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
-    
-    @ManyToOne
-    @JoinColumn(name = "grado_id")
-    private Grado grado;
+	@Column(unique = true)
+	private String numeroExpediente;
 
-    @OneToMany(mappedBy = "alumno")
-    private List<Examen> examenes;
+	private Date fechaNacimiento;
 
-    @OneToMany(mappedBy = "alumno")
-    private List<Pago> pagos;
+	private String nif;
 
-    @OneToMany(mappedBy = "alumno")
-    private List<FotoAlumno> fotos;
+	private String direccion;
+
+	private Integer telefono;
+
+	private String email;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaAlta;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaBaja;
+
+	@Enumerated(EnumType.STRING)
+	private TipoTarifa tipoTarifa;
+
+	private Double cuantiaTarifa;
+
+	@ManyToOne
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
+
+	@ManyToOne
+	@JoinColumn(name = "grado_id")
+	private Grado grado;
+
+	@OneToMany(mappedBy = "alumno")
+	private List<Examen> examenes;
+
+	@OneToMany(mappedBy = "alumno")
+	private List<Pago> pagos;
+
+	@OneToMany(mappedBy = "alumno")
+	private List<FotoAlumno> fotos;
 
 	public Long getId() {
 		return id;
@@ -184,5 +192,21 @@ public class Alumno {
 
 	public void setGrado(Grado grado) {
 		this.grado = grado;
+	}
+
+	public Date getFechaAlta() {
+		return fechaAlta;
+	}
+
+	public void setFechaAlta(Date fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
 	}
 }
