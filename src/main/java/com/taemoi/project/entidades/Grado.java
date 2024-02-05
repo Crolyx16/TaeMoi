@@ -1,23 +1,30 @@
 package com.taemoi.project.entidades;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Grado {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String nombre;
+	
+    @NotNull(message = "El tipo de grado no puede ser nulo")
+    @Enumerated(EnumType.STRING)
+    private TipoGrado tipoGrado;
 
 	@OneToMany(mappedBy = "grado")
-	private List<Alumno> alumnos;
+	private Set<Alumno> alumnos = new HashSet<>();
 
 	@OneToMany(mappedBy = "grado")
 	private List<Examen> examenes;
@@ -30,19 +37,11 @@ public class Grado {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public List<Alumno> getAlumnos() {
+	public Set<Alumno> getAlumnos() {
 		return alumnos;
 	}
 
-	public void setAlumnos(List<Alumno> alumnos) {
+	public void setAlumnos(Set<Alumno> alumnos) {
 		this.alumnos = alumnos;
 	}
 
@@ -52,6 +51,14 @@ public class Grado {
 
 	public void setExamenes(List<Examen> examenes) {
 		this.examenes = examenes;
+	}
+
+	public TipoGrado getTipoGrado() {
+		return tipoGrado;
+	}
+
+	public void setTipoGrado(TipoGrado tipoGrado) {
+		this.tipoGrado = tipoGrado;
 	}
 
 }

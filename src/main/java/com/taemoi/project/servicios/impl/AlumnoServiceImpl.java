@@ -3,8 +3,6 @@ package com.taemoi.project.servicios.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.taemoi.project.entidades.Alumno;
@@ -14,14 +12,17 @@ import com.taemoi.project.servicios.AlumnoService;
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
 
-	@Autowired
-	private AlumnoRepository alumnoRepository;
+    private final AlumnoRepository alumnoRepository;
+
+    public AlumnoServiceImpl(AlumnoRepository alumnoRepository) {
+        this.alumnoRepository = alumnoRepository;
+    }
 
 	@Override
-	public List<Alumno> obtenerTodosLosAlumnos() {
-		return alumnoRepository.findAll();
-	}
-
+    public List<Alumno> obtenerTodosLosAlumnos() {
+        return alumnoRepository.findAll();
+    }
+	
 	@Override
 	public Optional<Alumno> obtenerAlumnoPorId(Long id) {
 		return alumnoRepository.findById(id);

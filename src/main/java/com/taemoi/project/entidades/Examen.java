@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Examen {
@@ -26,6 +27,7 @@ public class Examen {
 	private Grado grado;
 
 	@Temporal(TemporalType.DATE)
+    @NotNull(message = "La fecha del examen no puede ser nula")
 	private Date fecha;
 
 	@ManyToOne

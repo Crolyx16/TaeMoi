@@ -15,6 +15,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Alumno {
@@ -22,32 +25,43 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nombre;
-	private String apellidos;
+    @NotBlank(message = "El nombre no puede estar en blanco")
+    private String nombre;
 
-	@Column(unique = true)
-	private String numeroExpediente;
+    @NotBlank(message = "Los apellidos no pueden estar en blanco")
+    private String apellidos;
+    
+    @Column(unique = true)
+    @NotBlank(message = "El número de expediente no puede estar en blanco")
+    private String numeroExpediente;
 
-	private Date fechaNacimiento;
+    @NotNull(message = "La fecha de nacimiento no puede ser nula")
+    private Date fechaNacimiento;
 
-	private String nif;
+    @NotBlank(message = "El NIF no puede estar en blanco")
+    private String nif;
 
-	private String direccion;
+    @NotBlank(message = "La dirección no puede estar en blanco")
+    private String direccion;
 
-	private Integer telefono;
+    @NotNull(message = "El teléfono no puede ser nulo")
+    private Integer telefono;
 
-	private String email;
+    @Email(message = "La dirección de correo electrónico debe ser válida")
+    private String email;
 
+    @NotNull(message = "El tipo de tarifa no puede ser nulo")
+    @Enumerated(EnumType.STRING)
+    private TipoTarifa tipoTarifa;
+
+    @NotNull(message = "La cuantía de la tarifa no puede ser nula")
+    private Double cuantiaTarifa;
+	
 	@Temporal(TemporalType.DATE)
 	private Date fechaAlta;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaBaja;
-
-	@Enumerated(EnumType.STRING)
-	private TipoTarifa tipoTarifa;
-
-	private Double cuantiaTarifa;
 
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")

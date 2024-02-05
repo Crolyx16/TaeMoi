@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Categoria {
@@ -14,9 +16,14 @@ public class Categoria {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nombre;
-	private int edadMinima;
-	private int edadMaxima;
+    @NotBlank(message = "El nombre de la categoría no puede estar en blanco")
+    private String nombre;
+
+    @Min(value = 0, message = "La edad mínima no puede ser menor que 0")
+    private int edadMinima;
+
+    @Min(value = 0, message = "La edad máxima no puede ser menor que 0")
+    private int edadMaxima;
 
 	@OneToMany(mappedBy = "categoria")
 	private List<Alumno> alumnos;
