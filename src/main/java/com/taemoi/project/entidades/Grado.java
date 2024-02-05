@@ -4,9 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,10 +27,11 @@ public class Grado {
     @Enumerated(EnumType.STRING)
     private TipoGrado tipoGrado;
 
-	@OneToMany(mappedBy = "grado")
+	@OneToMany(mappedBy = "grado", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonManagedReference
 	private Set<Alumno> alumnos = new HashSet<>();
 
-	@OneToMany(mappedBy = "grado")
+	@OneToMany(mappedBy = "grado", cascade = CascadeType.ALL)
 	private List<Examen> examenes;
 
 	public Long getId() {

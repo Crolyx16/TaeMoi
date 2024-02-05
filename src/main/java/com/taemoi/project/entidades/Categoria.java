@@ -2,6 +2,8 @@ package com.taemoi.project.entidades;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,7 @@ public class Categoria {
     private int edadMaxima;
 
 	@OneToMany(mappedBy = "categoria")
+	@JsonManagedReference
 	private List<Alumno> alumnos;
 
 	public Long getId() {

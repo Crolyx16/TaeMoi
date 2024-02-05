@@ -24,4 +24,13 @@ public enum TipoGrado {
 	public String getNombre() {
 		return nombre;
 	}
+	
+	public static TipoGrado fromNombre(String nombre) {
+	    for (TipoGrado tipo : TipoGrado.values()) {
+	        if (tipo.nombre.equalsIgnoreCase(nombre)) {
+	            return tipo;
+	        }
+	    }
+	    throw new IllegalArgumentException("Tipo de grado no válido: " + nombre);
+	}
 }

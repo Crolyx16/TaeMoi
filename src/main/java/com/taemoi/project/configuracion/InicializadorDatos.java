@@ -80,9 +80,7 @@ public class InicializadorDatos implements CommandLineRunner {
             // Si existe, asignar el grado existente al alumno
             alumno.setGrado(gradoExistente);
         } else {
-            // Si no existe, guardar el nuevo grado en la base de datos
             gradoRepository.save(grado);
-            // Asignar el nuevo grado al alumno
             alumno.setGrado(grado);
         }
 
