@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -42,6 +42,8 @@ public class InicializadorDatos implements CommandLineRunner {
 			alumnoRepository.deleteAll();
 		}
 
+		generarGrados();
+
 		Faker faker = new Faker(new Locale("es"));
 
 		// Crear y almacenar las categorías en la base de datos
@@ -55,9 +57,20 @@ public class InicializadorDatos implements CommandLineRunner {
 		}
 
 		// Asignar grados y guardar alumnos
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			Alumno alumno = generarAlumno(faker);
 			alumnoRepository.save(alumno);
+		}
+	}
+
+	private void generarGrados() {
+		for (TipoGrado tipoGrado : TipoGrado.values()) {
+			Grado gradoExistente = gradoRepository.findByTipoGrado(tipoGrado);
+			if (gradoExistente == null) {
+				Grado nuevoGrado = new Grado();
+				nuevoGrado.setTipoGrado(tipoGrado);
+				gradoRepository.save(nuevoGrado);
+			}
 		}
 	}
 
@@ -71,33 +84,45 @@ public class InicializadorDatos implements CommandLineRunner {
 		alumno.setDireccion(faker.address().fullAddress());
 		alumno.setTelefono(faker.number().numberBetween(100000000, 999999999));
 		alumno.setEmail(faker.internet().emailAddress());
-		alumno.setTipoTarifa(TipoTarifa.values()[faker.number().numberBetween(0, TipoTarifa.values().length)]);
 		alumno.setCuantiaTarifa(faker.number().randomDouble(2, 50, 200));
 		alumno.setFechaAlta(faker.date().birthday());
 		alumno.setFechaBaja(faker.date().birthday());
+	    TipoTarifa tipoTarifa = TipoTarifa.values()[faker.number().numberBetween(0, TipoTarifa.values().length)];
+	    alumno.setTipoTarifa(tipoTarifa);
 
-		// Obtener la edad del alumno
+	    double cuantiaTarifa = asignarCuantiaTarifa(tipoTarifa);
+	    alumno.setCuantiaTarifa(cuantiaTarifa);
+
 		LocalDate fechaNacimiento = alumno.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault())
 				.toLocalDate();
 		int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
 
-		// Asignar la categoría según la edad del alumno
 		alumno.setCategoria(asignarCategoriaSegunEdad(edad));
 
-		Grado grado = asignarGradoSegunEdad(alumno, faker);
-
-		// Verificar si ya existe un grado con el mismo tipo en la base de datos
-		Grado gradoExistente = gradoRepository.findByTipoGrado(grado.getTipoGrado());
-
-		if (gradoExistente != null) {
-			// Si existe, asignar el grado existente al alumno
-			alumno.setGrado(gradoExistente);
-		} else {
-			gradoRepository.save(grado);
-			alumno.setGrado(grado);
-		}
+		alumno.setGrado(asignarGradoSegunEdad(edad));
 
 		return alumno;
+	}
+	
+	private double asignarCuantiaTarifa(TipoTarifa tipoTarifa) {
+	    switch (tipoTarifa) {
+	        case ADULTO:
+	            return 30.0;
+	        case ADULTO_GRUPO:
+	            return 20.0;
+	        case FAMILIAR:
+	            return 0.0;
+	        case INFANTIL:
+	            return 25.0;
+	        case INFANTIL_GRUPO:
+	            return 20.0;
+	        case HERMANOS:
+	            return 23.0;
+	        case PADRES_HIJOS:
+	            return 0.0;
+	        default:
+	            throw new IllegalArgumentException("Tipo de tarifa no válido: " + tipoTarifa);
+	    }
 	}
 
 	private Categoria asignarCategoriaSegunEdad(int edad) {
@@ -121,27 +146,21 @@ public class InicializadorDatos implements CommandLineRunner {
 		return categoriaRepository.findByNombre(tipoCategoria.getNombre());
 	}
 
-	private Grado asignarGradoSegunEdad(Alumno alumno, Faker faker) {
-		List<TipoGrado> grados;
-		if (esMenorDeQuinceAnios(alumno.getFechaNacimiento())) {
-			grados = Arrays.asList(TipoGrado.BLANCO, TipoGrado.BLANCO_AMARILLO, TipoGrado.AMARILLO,
-					TipoGrado.AMARILLO_NARANJA, TipoGrado.NARANJA, TipoGrado.NARANJA_VERDE, TipoGrado.VERDE,
-					TipoGrado.VERDE_AZUL, TipoGrado.AZUL, TipoGrado.AZUL_ROJO, TipoGrado.ROJO, TipoGrado.ROJO_NEGRO);
-		} else {
-			grados = Arrays.asList(TipoGrado.BLANCO, TipoGrado.AMARILLO, TipoGrado.NARANJA, TipoGrado.VERDE,
-					TipoGrado.AZUL, TipoGrado.ROJO, TipoGrado.NEGRO);
-		}
+	private Grado asignarGradoSegunEdad(int edad) {
+	    List<TipoGrado> tiposGradoDisponibles;
+	    if (edad > 15) {
+	        tiposGradoDisponibles = Arrays.asList(TipoGrado.BLANCO, TipoGrado.AMARILLO,
+	                TipoGrado.NARANJA, TipoGrado.VERDE, TipoGrado.AZUL, TipoGrado.ROJO, TipoGrado.NEGRO);
+	    } else {
+	        tiposGradoDisponibles = Arrays.asList(TipoGrado.BLANCO, TipoGrado.BLANCO_AMARILLO,
+	                TipoGrado.AMARILLO, TipoGrado.AMARILLO_NARANJA, TipoGrado.NARANJA, TipoGrado.NARANJA_VERDE,
+	                TipoGrado.VERDE, TipoGrado.VERDE_AZUL, TipoGrado.AZUL, TipoGrado.AZUL_ROJO, TipoGrado.ROJO,
+	                TipoGrado.ROJO_NEGRO);
+	    }
 
-		TipoGrado tipoGradoAsignado = grados.get(faker.number().numberBetween(0, grados.size()));
-		Grado grado = new Grado();
-		grado.setTipoGrado(tipoGradoAsignado);
+	    Random random = new Random();
+	    TipoGrado tipoGradoSeleccionado = tiposGradoDisponibles.get(random.nextInt(tiposGradoDisponibles.size()));
 
-		return grado;
-	}
-
-	private boolean esMenorDeQuinceAnios(Date fechaNacimiento) {
-		LocalDate fechaNacimientoLocal = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate fechaLimite = LocalDate.now().minusYears(15);
-		return fechaNacimientoLocal.isBefore(fechaLimite); // Cambiado de "isAfter" a "isBefore"
+	    return gradoRepository.findByTipoGrado(tipoGradoSeleccionado);
 	}
 }

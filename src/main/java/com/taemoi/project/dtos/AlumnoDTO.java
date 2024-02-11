@@ -3,6 +3,7 @@ package com.taemoi.project.dtos;
 import java.util.Date;
 
 import com.taemoi.project.entidades.Alumno;
+import com.taemoi.project.entidades.TipoTarifa;
 
 public class AlumnoDTO {
 	private String nombre;
@@ -14,15 +15,15 @@ public class AlumnoDTO {
 	private String email;
 	private Integer telefono;
 	private Double cuantiaTarifa;
-	private String tipoTarifa;
+	private TipoTarifa tipoTarifa;
 	private Date fechaAlta;
 	private Date fechaBaja;
 	private String categoria;
 	private String grado;
 
 	public AlumnoDTO(String nombre, String apellidos, Date fechaNacimiento, String numeroExpediente, String nif,
-			String direccion, String email, Integer telefono, Double cuantiaTarifa, String tipoTarifa, Date fechaAlta,
-			Date fechaBaja, String categoria, String grado) {
+			String direccion, String email, Integer telefono, Double cuantiaTarifa, TipoTarifa tipoTarifa,
+			Date fechaAlta, Date fechaBaja, String categoria, String grado) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -88,11 +89,11 @@ public class AlumnoDTO {
 		this.telefono = telefono;
 	}
 
-	public String getTipoTarifa() {
+	public TipoTarifa getTipoTarifa() {
 		return tipoTarifa;
 	}
 
-	public void setTipoTarifa(String tipoTarifa) {
+	public void setTipoTarifa(TipoTarifa tipoTarifa) {
 		this.tipoTarifa = tipoTarifa;
 	}
 
@@ -164,7 +165,7 @@ public class AlumnoDTO {
 
 		return new AlumnoDTO(alumno.getNombre(), alumno.getApellidos(), alumno.getFechaNacimiento(),
 				alumno.getNumeroExpediente(), alumno.getNif(), alumno.getDireccion(), alumno.getEmail(),
-				Integer.valueOf(alumno.getTelefono()), alumno.getCuantiaTarifa(), alumno.getTipoTarifa().name(),
+				Integer.valueOf(alumno.getTelefono()), alumno.getCuantiaTarifa(), alumno.getTipoTarifa(),
 				alumno.getFechaAlta(), alumno.getFechaBaja(), categoriaNombre, gradoTipo);
 	}
 }

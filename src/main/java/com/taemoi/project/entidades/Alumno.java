@@ -3,8 +3,7 @@ package com.taemoi.project.entidades;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -67,14 +66,14 @@ public class Alumno {
 	@Temporal(TemporalType.DATE)
 	private Date fechaBaja;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "categoria_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Categoria categoria;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "grado_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Grado grado;
 
 	@OneToMany(mappedBy = "alumno")

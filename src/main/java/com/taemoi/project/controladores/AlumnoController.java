@@ -1,5 +1,6 @@
 package com.taemoi.project.controladores;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +21,6 @@ import com.taemoi.project.dtos.AlumnoDTO;
 import com.taemoi.project.entidades.Alumno;
 import com.taemoi.project.entidades.Categoria;
 import com.taemoi.project.entidades.Grado;
-import com.taemoi.project.entidades.TipoTarifa;
 import com.taemoi.project.repositorios.AlumnoRepository;
 import com.taemoi.project.repositorios.GradoRepository;
 import com.taemoi.project.servicios.AlumnoService;
@@ -30,7 +30,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/alumnos")
 public class AlumnoController {
-
 
 	@Autowired
 	private AlumnoService alumnoService;
@@ -68,7 +67,9 @@ public class AlumnoController {
 
 	@PostMapping
 	public ResponseEntity<AlumnoDTO> crearAlumno(@Valid @RequestBody AlumnoDTO nuevoAlumnoDTO) {
-		Categoria categoria = alumnoService.asignarCategoriaSegunEdad(nuevoAlumnoDTO);
+		int edad = alumnoService.calcularEdad(nuevoAlumnoDTO.getFechaNacimiento());
+
+		Categoria categoria = alumnoService.asignarCategoriaSegunEdad(edad);
 		Grado grado = alumnoService.asignarGradoSegunEdad(nuevoAlumnoDTO);
 
 		Grado gradoGuardado = gradoRepository.findByTipoGrado(grado.getTipoGrado());
@@ -85,8 +86,8 @@ public class AlumnoController {
 		nuevoAlumno.setDireccion(nuevoAlumnoDTO.getDireccion());
 		nuevoAlumno.setEmail(nuevoAlumnoDTO.getEmail());
 		nuevoAlumno.setTelefono(nuevoAlumnoDTO.getTelefono());
-		nuevoAlumno.setTipoTarifa(TipoTarifa.valueOf(nuevoAlumnoDTO.getTipoTarifa()));
-		nuevoAlumno.setCuantiaTarifa(nuevoAlumnoDTO.getCuantiaTarifa());
+		nuevoAlumno.setTipoTarifa(nuevoAlumnoDTO.getTipoTarifa());
+		nuevoAlumno.setCuantiaTarifa(alumnoService.asignarCuantiaTarifa(nuevoAlumno.getTipoTarifa()));
 		nuevoAlumno.setFechaAlta(nuevoAlumnoDTO.getFechaAlta());
 		nuevoAlumno.setFechaBaja(nuevoAlumnoDTO.getFechaBaja());
 		nuevoAlumno.setCategoria(categoria);
@@ -98,12 +99,15 @@ public class AlumnoController {
 		return new ResponseEntity<>(creadoDTO, HttpStatus.CREATED);
 	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Alumno> actualizarAlumno(@PathVariable Long id,
-            @Valid @RequestBody Alumno alumnoActualizado) {
-        Alumno alumno = alumnoService.actualizarAlumno(id, alumnoActualizado);
-        return new ResponseEntity<>(alumno, HttpStatus.OK);
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<AlumnoDTO> actualizarAlumno(@PathVariable Long id,
+	        @Valid @RequestBody AlumnoDTO alumnoActualizado) {
+	    Date nuevaFechaNacimiento = alumnoActualizado.getFechaNacimiento();
+		System.out.println("La fecha que llega es" + nuevaFechaNacimiento);
+	    Alumno alumno = alumnoService.actualizarAlumno(id, alumnoActualizado, nuevaFechaNacimiento);
+	    AlumnoDTO alumnoActualizadoDTO = AlumnoDTO.deAlumno(alumno);
+	    return new ResponseEntity<>(alumnoActualizadoDTO, HttpStatus.OK);
+	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminarAlumno(@Valid @PathVariable Long id) {

@@ -8,6 +8,7 @@ import com.taemoi.project.dtos.AlumnoDTO;
 import com.taemoi.project.entidades.Alumno;
 import com.taemoi.project.entidades.Categoria;
 import com.taemoi.project.entidades.Grado;
+import com.taemoi.project.entidades.TipoTarifa;
 
 import jakarta.validation.Valid;
 
@@ -20,11 +21,13 @@ public interface AlumnoService {
 
 	Alumno crearAlumno(@Valid Alumno alumno);
 
-	Alumno actualizarAlumno(@Valid Long id, Alumno alumnoActualizado);
+	Alumno actualizarAlumno(@Valid Long id, AlumnoDTO alumnoActualizado, Date nuevaFechaNacimiento);
 
 	boolean eliminarAlumno(@Valid Long id);
 	
-	Categoria asignarCategoriaSegunEdad(AlumnoDTO alumnoDTO);
+	double asignarCuantiaTarifa(TipoTarifa tipoTarifa);
+	
+	Categoria asignarCategoriaSegunEdad(int edad);
 	
 	Grado asignarGradoSegunEdad(AlumnoDTO nuevoAlumnoDTO);
 	

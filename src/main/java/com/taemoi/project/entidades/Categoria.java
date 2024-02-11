@@ -2,8 +2,7 @@ package com.taemoi.project.entidades;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,7 +25,7 @@ public class Categoria {
 	private String nombre;
 
 	@OneToMany(mappedBy = "categoria")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Alumno> alumnos;
 
 	public Long getId() {
