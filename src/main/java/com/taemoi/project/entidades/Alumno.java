@@ -1,10 +1,10 @@
 package com.taemoi.project.entidades;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +40,7 @@ public class Alumno {
     private String numeroExpediente;
 
     @NotNull(message = "La fecha de nacimiento no puede ser nula")
+    @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
     @NotBlank(message = "El NIF no puede estar en blanco")
