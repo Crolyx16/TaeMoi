@@ -2,7 +2,9 @@ package com.taemoi.project.controladores;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taemoi.project.dtos.AlumnoDTO;
 import com.taemoi.project.entidades.Alumno;
+import com.taemoi.project.entidades.Categoria;
+import com.taemoi.project.entidades.Grado;
+import com.taemoi.project.entidades.TipoTarifa;
+import com.taemoi.project.repositorios.AlumnoRepository;
+import com.taemoi.project.repositorios.GradoRepository;
 import com.taemoi.project.servicios.AlumnoService;
 
 import jakarta.validation.Valid;
@@ -23,16 +31,26 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/alumnos")
 public class AlumnoController {
 
-    private final AlumnoService alumnoService;
 
-    public AlumnoController(AlumnoService alumnoService) {
-        this.alumnoService = alumnoService;
-    }
+	@Autowired
+	private AlumnoService alumnoService;
 
-    @GetMapping
-    public List<Alumno> obtenerAlumnos() {
-        return alumnoService.obtenerTodosLosAlumnos();
-    }
+	@Autowired
+	private AlumnoRepository alumnoRepository;
+
+	@Autowired
+	private GradoRepository gradoRepository;
+
+	@GetMapping
+	public List<Alumno> obtenerAlumnos() {
+		return alumnoService.obtenerTodosLosAlumnos();
+	}
+
+	@GetMapping("/dto")
+	public List<AlumnoDTO> obtenerAlumnosDTO() {
+		List<Alumno> alumnos = alumnoRepository.findAll();
+		return alumnos.stream().map(AlumnoDTO::deAlumno).collect(Collectors.toList());
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Alumno> obtenerAlumnoPorId(@PathVariable Long id) {
@@ -41,18 +59,51 @@ public class AlumnoController {
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	@PostMapping
-	public ResponseEntity<Alumno> crearAlumno(@Valid @RequestBody Alumno nuevoAlumno) {
-		Alumno creado = alumnoService.crearAlumno(nuevoAlumno);
-		return new ResponseEntity<>(creado, HttpStatus.CREATED);
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<Alumno> actualizarAlumno(@Valid @PathVariable Long id, @RequestBody Alumno alumnoActualizado) {
-		Optional<Alumno> actualizado = alumnoService.actualizarAlumno(id, alumnoActualizado);
-		return actualizado.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<AlumnoDTO> obtenerAlumnoPorIdDTO(@PathVariable Long id) {
+		Optional<AlumnoDTO> alumno = alumnoService.obtenerAlumnoDTOPorId(id);
+		return alumno.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+
+	@PostMapping
+	public ResponseEntity<AlumnoDTO> crearAlumno(@Valid @RequestBody AlumnoDTO nuevoAlumnoDTO) {
+		Categoria categoria = alumnoService.asignarCategoriaSegunEdad(nuevoAlumnoDTO);
+		Grado grado = alumnoService.asignarGradoSegunEdad(nuevoAlumnoDTO);
+
+		Grado gradoGuardado = gradoRepository.findByTipoGrado(grado.getTipoGrado());
+		if (gradoGuardado == null) {
+			gradoGuardado = gradoRepository.save(grado);
+		}
+
+		Alumno nuevoAlumno = new Alumno();
+		nuevoAlumno.setNombre(nuevoAlumnoDTO.getNombre());
+		nuevoAlumno.setApellidos(nuevoAlumnoDTO.getApellidos());
+		nuevoAlumno.setFechaNacimiento(nuevoAlumnoDTO.getFechaNacimiento());
+		nuevoAlumno.setNumeroExpediente(nuevoAlumnoDTO.getNumeroExpediente());
+		nuevoAlumno.setNif(nuevoAlumnoDTO.getNif());
+		nuevoAlumno.setDireccion(nuevoAlumnoDTO.getDireccion());
+		nuevoAlumno.setEmail(nuevoAlumnoDTO.getEmail());
+		nuevoAlumno.setTelefono(nuevoAlumnoDTO.getTelefono());
+		nuevoAlumno.setTipoTarifa(TipoTarifa.valueOf(nuevoAlumnoDTO.getTipoTarifa()));
+		nuevoAlumno.setCuantiaTarifa(nuevoAlumnoDTO.getCuantiaTarifa());
+		nuevoAlumno.setFechaAlta(nuevoAlumnoDTO.getFechaAlta());
+		nuevoAlumno.setFechaBaja(nuevoAlumnoDTO.getFechaBaja());
+		nuevoAlumno.setCategoria(categoria);
+		nuevoAlumno.setGrado(grado);
+
+		Alumno creado = alumnoService.crearAlumno(nuevoAlumno);
+
+		AlumnoDTO creadoDTO = AlumnoDTO.deAlumno(creado);
+		return new ResponseEntity<>(creadoDTO, HttpStatus.CREATED);
+	}
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Alumno> actualizarAlumno(@PathVariable Long id,
+            @Valid @RequestBody Alumno alumnoActualizado) {
+        Alumno alumno = alumnoService.actualizarAlumno(id, alumnoActualizado);
+        return new ResponseEntity<>(alumno, HttpStatus.OK);
+    }
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminarAlumno(@Valid @PathVariable Long id) {

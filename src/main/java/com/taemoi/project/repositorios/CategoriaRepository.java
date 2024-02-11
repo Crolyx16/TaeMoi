@@ -7,5 +7,5 @@ import com.taemoi.project.entidades.Categoria;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-
+	Categoria findByNombre(String nombre);
 }
