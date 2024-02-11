@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +33,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/alumnos")
 public class AlumnoController {
-
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
 	@Autowired
 	private AlumnoService alumnoService;
 
@@ -41,32 +45,26 @@ public class AlumnoController {
 	private GradoRepository gradoRepository;
 
 	@GetMapping
-	public List<Alumno> obtenerAlumnos() {
-		return alumnoService.obtenerTodosLosAlumnos();
-	}
-
-	@GetMapping("/dto")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public List<AlumnoDTO> obtenerAlumnosDTO() {
+		logger.info("## AlumnoController :: mostrarAlumnos" );
 		List<Alumno> alumnos = alumnoRepository.findAll();
 		return alumnos.stream().map(AlumnoDTO::deAlumno).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Alumno> obtenerAlumnoPorId(@PathVariable Long id) {
-		Optional<Alumno> alumno = alumnoService.obtenerAlumnoPorId(id);
-		return alumno.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-	}
-
-	@GetMapping("/dto/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AlumnoDTO> obtenerAlumnoPorIdDTO(@PathVariable Long id) {
+		logger.info("## AlumnoController :: mostrarAlumnosPorId" );
 		Optional<AlumnoDTO> alumno = alumnoService.obtenerAlumnoDTOPorId(id);
 		return alumno.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@PostMapping
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AlumnoDTO> crearAlumno(@Valid @RequestBody AlumnoDTO nuevoAlumnoDTO) {
+		logger.info("## AlumnoController :: añadirAlumno" );
 		int edad = alumnoService.calcularEdad(nuevoAlumnoDTO.getFechaNacimiento());
 
 		Categoria categoria = alumnoService.asignarCategoriaSegunEdad(edad);
@@ -100,8 +98,10 @@ public class AlumnoController {
 	}
 
 	@PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AlumnoDTO> actualizarAlumno(@PathVariable Long id,
 	        @Valid @RequestBody AlumnoDTO alumnoActualizado) {
+		logger.info("## AlumnoController :: modificarAlumno" );
 	    Date nuevaFechaNacimiento = alumnoActualizado.getFechaNacimiento();
 		System.out.println("La fecha que llega es" + nuevaFechaNacimiento);
 	    Alumno alumno = alumnoService.actualizarAlumno(id, alumnoActualizado, nuevaFechaNacimiento);
@@ -110,7 +110,9 @@ public class AlumnoController {
 	}
 
 	@DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Void> eliminarAlumno(@Valid @PathVariable Long id) {
+		logger.info("## AlumnoController :: eliminarAlumno" );
 		boolean eliminado = alumnoService.eliminarAlumno(id);
 		return eliminado ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

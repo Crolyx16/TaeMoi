@@ -10,30 +10,40 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.github.javafaker.Faker;
 import com.taemoi.project.entidades.Alumno;
 import com.taemoi.project.entidades.Categoria;
 import com.taemoi.project.entidades.Grado;
+import com.taemoi.project.entidades.Roles;
 import com.taemoi.project.entidades.TipoCategoria;
 import com.taemoi.project.entidades.TipoGrado;
 import com.taemoi.project.entidades.TipoTarifa;
+import com.taemoi.project.entidades.Usuario;
 import com.taemoi.project.repositorios.AlumnoRepository;
 import com.taemoi.project.repositorios.CategoriaRepository;
 import com.taemoi.project.repositorios.GradoRepository;
+import com.taemoi.project.repositorios.UsuarioRepository;
 
 @Component
 public class InicializadorDatos implements CommandLineRunner {
 
 	@Autowired
 	private AlumnoRepository alumnoRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
 	@Autowired
 	private GradoRepository gradoRepository;
+	
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -43,6 +53,30 @@ public class InicializadorDatos implements CommandLineRunner {
 		}
 
 		generarGrados();
+
+		try {
+		    if (usuarioRepository.findByEmail("moiskimdotaekwondo@gmail.com").isEmpty()) {
+		        Usuario moiskimdo = new Usuario();
+		        moiskimdo.setNombre("Moiskimdo");
+		        moiskimdo.setApellidos("Taekwondo");
+		        moiskimdo.setEmail("moiskimdotaekwondo@gmail.com");
+		        moiskimdo.setContrasena(passwordEncoder.encode("09012013"));
+		        moiskimdo.getRoles().add(Roles.ROLE_USER);
+		        usuarioRepository.save(moiskimdo);
+		    }
+
+		    if (usuarioRepository.findByEmail("crolyx16@gmail.com").isEmpty()) {
+		        Usuario admin = new Usuario();
+		        admin.setNombre("Carlos");
+		        admin.setApellidos("Sanchez Roman");
+		        admin.setEmail("crolyx16@gmail.com");
+		        admin.setContrasena(passwordEncoder.encode("17022003"));
+		        admin.getRoles().add(Roles.ROLE_ADMIN);
+		        usuarioRepository.save(admin);
+		    }
+		} catch (Exception e) {
+			
+		}
 
 		Faker faker = new Faker(new Locale("es"));
 
@@ -87,11 +121,11 @@ public class InicializadorDatos implements CommandLineRunner {
 		alumno.setCuantiaTarifa(faker.number().randomDouble(2, 50, 200));
 		alumno.setFechaAlta(faker.date().birthday());
 		alumno.setFechaBaja(faker.date().birthday());
-	    TipoTarifa tipoTarifa = TipoTarifa.values()[faker.number().numberBetween(0, TipoTarifa.values().length)];
-	    alumno.setTipoTarifa(tipoTarifa);
+		TipoTarifa tipoTarifa = TipoTarifa.values()[faker.number().numberBetween(0, TipoTarifa.values().length)];
+		alumno.setTipoTarifa(tipoTarifa);
 
-	    double cuantiaTarifa = asignarCuantiaTarifa(tipoTarifa);
-	    alumno.setCuantiaTarifa(cuantiaTarifa);
+		double cuantiaTarifa = asignarCuantiaTarifa(tipoTarifa);
+		alumno.setCuantiaTarifa(cuantiaTarifa);
 
 		LocalDate fechaNacimiento = alumno.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault())
 				.toLocalDate();
@@ -103,26 +137,26 @@ public class InicializadorDatos implements CommandLineRunner {
 
 		return alumno;
 	}
-	
+
 	private double asignarCuantiaTarifa(TipoTarifa tipoTarifa) {
-	    switch (tipoTarifa) {
-	        case ADULTO:
-	            return 30.0;
-	        case ADULTO_GRUPO:
-	            return 20.0;
-	        case FAMILIAR:
-	            return 0.0;
-	        case INFANTIL:
-	            return 25.0;
-	        case INFANTIL_GRUPO:
-	            return 20.0;
-	        case HERMANOS:
-	            return 23.0;
-	        case PADRES_HIJOS:
-	            return 0.0;
-	        default:
-	            throw new IllegalArgumentException("Tipo de tarifa no válido: " + tipoTarifa);
-	    }
+		switch (tipoTarifa) {
+		case ADULTO:
+			return 30.0;
+		case ADULTO_GRUPO:
+			return 20.0;
+		case FAMILIAR:
+			return 0.0;
+		case INFANTIL:
+			return 25.0;
+		case INFANTIL_GRUPO:
+			return 20.0;
+		case HERMANOS:
+			return 23.0;
+		case PADRES_HIJOS:
+			return 0.0;
+		default:
+			throw new IllegalArgumentException("Tipo de tarifa no válido: " + tipoTarifa);
+		}
 	}
 
 	private Categoria asignarCategoriaSegunEdad(int edad) {
@@ -147,20 +181,19 @@ public class InicializadorDatos implements CommandLineRunner {
 	}
 
 	private Grado asignarGradoSegunEdad(int edad) {
-	    List<TipoGrado> tiposGradoDisponibles;
-	    if (edad > 15) {
-	        tiposGradoDisponibles = Arrays.asList(TipoGrado.BLANCO, TipoGrado.AMARILLO,
-	                TipoGrado.NARANJA, TipoGrado.VERDE, TipoGrado.AZUL, TipoGrado.ROJO, TipoGrado.NEGRO);
-	    } else {
-	        tiposGradoDisponibles = Arrays.asList(TipoGrado.BLANCO, TipoGrado.BLANCO_AMARILLO,
-	                TipoGrado.AMARILLO, TipoGrado.AMARILLO_NARANJA, TipoGrado.NARANJA, TipoGrado.NARANJA_VERDE,
-	                TipoGrado.VERDE, TipoGrado.VERDE_AZUL, TipoGrado.AZUL, TipoGrado.AZUL_ROJO, TipoGrado.ROJO,
-	                TipoGrado.ROJO_NEGRO);
-	    }
+		List<TipoGrado> tiposGradoDisponibles;
+		if (edad > 15) {
+			tiposGradoDisponibles = Arrays.asList(TipoGrado.BLANCO, TipoGrado.AMARILLO, TipoGrado.NARANJA,
+					TipoGrado.VERDE, TipoGrado.AZUL, TipoGrado.ROJO, TipoGrado.NEGRO);
+		} else {
+			tiposGradoDisponibles = Arrays.asList(TipoGrado.BLANCO, TipoGrado.BLANCO_AMARILLO, TipoGrado.AMARILLO,
+					TipoGrado.AMARILLO_NARANJA, TipoGrado.NARANJA, TipoGrado.NARANJA_VERDE, TipoGrado.VERDE,
+					TipoGrado.VERDE_AZUL, TipoGrado.AZUL, TipoGrado.AZUL_ROJO, TipoGrado.ROJO, TipoGrado.ROJO_NEGRO);
+		}
 
-	    Random random = new Random();
-	    TipoGrado tipoGradoSeleccionado = tiposGradoDisponibles.get(random.nextInt(tiposGradoDisponibles.size()));
+		Random random = new Random();
+		TipoGrado tipoGradoSeleccionado = tiposGradoDisponibles.get(random.nextInt(tiposGradoDisponibles.size()));
 
-	    return gradoRepository.findByTipoGrado(tipoGradoSeleccionado);
+		return gradoRepository.findByTipoGrado(tipoGradoSeleccionado);
 	}
 }
