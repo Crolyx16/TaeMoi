@@ -13,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Pago {
@@ -20,21 +22,25 @@ public class Pago {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@ManyToOne
+	@JoinColumn(name = "alumno_id")
+	private Alumno alumno;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    private Alumno alumno;
-
+    @NotBlank(message = "El número de expediente del alumno no puede estar en blanco")
     @Column(name = "numero_expediente_alumno")
     private String numeroExpedienteAlumno;
 
+    @NotBlank(message = "El concepto no puede estar en blanco")
     private String concepto;
-    
+
+    @NotNull(message = "La fecha del pago no puede ser nula")
     @Temporal(TemporalType.DATE)
     private Date fecha;
 
+    @NotNull(message = "La cuantía del pago no puede ser nula")
     private Double cuantia;
 
+    @NotNull(message = "El estado del pago no puede ser nulo")
     @Enumerated(EnumType.STRING)
     private EstadoPago estado;
 

@@ -10,27 +10,29 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Examen {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    private Alumno alumno;
+	@ManyToOne
+	@JoinColumn(name = "alumno_id")
+	private Alumno alumno;
 
-    @ManyToOne
-    @JoinColumn(name = "grado_id")
-    private Grado grado;
+	@ManyToOne
+	@JoinColumn(name = "grado_id")
+	private Grado grado;
 
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+	@Temporal(TemporalType.DATE)
+    @NotNull(message = "La fecha del examen no puede ser nula")
+	private Date fecha;
 
-    @ManyToOne
-    @JoinColumn(name = "examen_grado_id")
-    private Grado examenGrado;
+	@ManyToOne
+	@JoinColumn(name = "examen_grado_id")
+	private Grado examenGrado;
 
 	public Long getId() {
 		return id;
@@ -71,5 +73,5 @@ public class Examen {
 	public void setExamenGrado(Grado examenGrado) {
 		this.examenGrado = examenGrado;
 	}
-    
+
 }

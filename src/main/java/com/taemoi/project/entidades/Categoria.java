@@ -2,24 +2,31 @@ package com.taemoi.project.entidades;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Categoria {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String nombre;
-    private int edadMinima;
-    private int edadMaxima;
+	@Enumerated(EnumType.STRING)
+	private TipoCategoria tipoCategoria;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Alumno> alumnos;
+	@NotBlank(message = "El nombre de la categoría no puede estar en blanco")
+	private String nombre;
+
+	@OneToMany(mappedBy = "categoria")
+	@JsonBackReference
+	private List<Alumno> alumnos;
 
 	public Long getId() {
 		return id;
@@ -27,6 +34,14 @@ public class Categoria {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public TipoCategoria getTipoCategoria() {
+		return tipoCategoria;
+	}
+
+	public void setTipoCategoria(TipoCategoria tipoCategoria) {
+		this.tipoCategoria = tipoCategoria;
 	}
 
 	public String getNombre() {
@@ -37,22 +52,6 @@ public class Categoria {
 		this.nombre = nombre;
 	}
 
-	public int getEdadMinima() {
-		return edadMinima;
-	}
-
-	public void setEdadMinima(int edadMinima) {
-		this.edadMinima = edadMinima;
-	}
-
-	public int getEdadMaxima() {
-		return edadMaxima;
-	}
-
-	public void setEdadMaxima(int edadMaxima) {
-		this.edadMaxima = edadMaxima;
-	}
-
 	public List<Alumno> getAlumnos() {
 		return alumnos;
 	}
@@ -60,5 +59,5 @@ public class Categoria {
 	public void setAlumnos(List<Alumno> alumnos) {
 		this.alumnos = alumnos;
 	}
- 
+
 }

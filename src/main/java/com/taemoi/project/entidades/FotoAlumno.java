@@ -9,15 +9,15 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class FotoAlumno {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    private Alumno alumno;
+	@ManyToOne
+	@JoinColumn(name = "alumno_id")
+	private Alumno alumno;
 
-    private String ruta;
+	private String ruta;
 
 	public Long getId() {
 		return id;
@@ -42,6 +42,5 @@ public class FotoAlumno {
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
-
 
 }
