@@ -6,6 +6,17 @@ public class RegistroRequest {
 	private String email;
 	private String contrasena;
 
+	public RegistroRequest() {
+
+	}
+
+	public RegistroRequest(String nombre, String apellidos, String email, String contrasena) {
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.contrasena = contrasena;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

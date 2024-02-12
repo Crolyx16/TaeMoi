@@ -41,8 +41,8 @@ public class InicializadorDatos implements CommandLineRunner {
 
 	@Autowired
 	private GradoRepository gradoRepository;
-	
-    @Autowired
+
+	@Autowired
     private PasswordEncoder passwordEncoder;
 
 	@Override

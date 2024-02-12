@@ -27,11 +27,8 @@ import com.taemoi.project.servicios.AlumnoService;
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
 
-	private final AlumnoRepository alumnoRepository;
-
-	public AlumnoServiceImpl(AlumnoRepository alumnoRepository) {
-		this.alumnoRepository = alumnoRepository;
-	}
+	@Autowired
+	private AlumnoRepository alumnoRepository;
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;

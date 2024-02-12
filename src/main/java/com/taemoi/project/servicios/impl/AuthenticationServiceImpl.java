@@ -47,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		user.setContrasena(passwordEncoder.encode(request.getContrasena()));
 		user.getRoles().add(Roles.ROLE_USER);
 		usuarioRepository.save(user);
-		String jwt = jwtService.generarToken(user);
+		String jwt = jwtService.generateToken(user);
 		return new JwtAuthenticationResponse(jwt);
 	}
 
@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Usuario user = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Email o contraseña inválidos."));
-        String jwt = jwtService.generarToken(user);
+        String jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 }

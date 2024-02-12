@@ -3,6 +3,16 @@ package com.taemoi.project.dtos.request;
 public class LoginRequest {
 	private String email;
 	private String contrasena;
+	
+	
+	
+	public LoginRequest() {
+	}
+
+	public LoginRequest(String email, String contrasena) {
+		this.email = email;
+		this.contrasena = contrasena;
+	}
 
 	public String getEmail() {
 		return email;
