@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.taemoi.project.dtos.UsuarioDTO;
 import com.taemoi.project.entidades.Alumno;
+import com.taemoi.project.errores.alumno.AlumnoNoEncontradoException;
+import com.taemoi.project.errores.alumno.ListaAlumnosVaciaException;
+import com.taemoi.project.errores.usuario.ListaUsuariosVaciaException;
 import com.taemoi.project.servicios.AlumnoService;
 import com.taemoi.project.servicios.UsuarioService;
 
@@ -32,9 +35,13 @@ public class AdminController {
 
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public List<Alumno> obtenerAlumnos() {
+	public ResponseEntity<List<Alumno>> obtenerAlumnos() {
 		logger.info("## AdminController :: mostrarAlumnos" );
-		return alumnoService.obtenerTodosLosAlumnos();
+		List<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos();
+        if (alumnos.isEmpty()) {
+            throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
+        }
+		return ResponseEntity.ok(alumnos);
 	}
 	
 	@GetMapping("/{id}")
@@ -43,14 +50,17 @@ public class AdminController {
 		logger.info("## AdminController :: mostrarAlumnosPorId" );
 		Optional<Alumno> alumno = alumnoService.obtenerAlumnoPorId(id);
 		return alumno.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+				.orElseThrow(() -> new AlumnoNoEncontradoException("Alumno no encontrado con ID: " + id));
 	}
 	
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<UsuarioDTO>> showUsers() {
     	logger.info("## AuthorizationAdminController :: showUsers" );
-        List<UsuarioDTO> userList = usuarioService.obtenerTodos();
-        return ResponseEntity.ok(userList);
+        List<UsuarioDTO> usuarios = usuarioService.obtenerTodos();
+        if (usuarios.isEmpty()) {
+            throw new ListaUsuariosVaciaException("No hay usuarios registrados en el sistema.");
+        }
+        return ResponseEntity.ok(usuarios);
     }
 }

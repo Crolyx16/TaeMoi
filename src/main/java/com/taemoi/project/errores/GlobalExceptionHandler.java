@@ -9,12 +9,14 @@ import com.taemoi.project.errores.alumno.AlumnoDuplicadoException;
 import com.taemoi.project.errores.alumno.AlumnoNoEncontradoException;
 import com.taemoi.project.errores.alumno.DatosAlumnoInvalidosException;
 import com.taemoi.project.errores.alumno.FechaNacimientoInvalidaException;
+import com.taemoi.project.errores.alumno.ListaAlumnosVaciaException;
+import com.taemoi.project.errores.usuario.ListaUsuariosVaciaException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AlumnoNoEncontradoException.class)
-    public ResponseEntity<String> handleAlumnoNotFoundException(AlumnoNoEncontradoException e) {
+    public ResponseEntity<String> handleAlumnoNoEncontradoException(AlumnoNoEncontradoException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
     
@@ -31,5 +33,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DatosAlumnoInvalidosException.class)
     public ResponseEntity<String> handleDatosAlumnoInvalidosException(DatosAlumnoInvalidosException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+    
+    @ExceptionHandler(ListaUsuariosVaciaException.class)
+    public ResponseEntity<String> handleListaUsuariosVaciaException(ListaUsuariosVaciaException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+    
+    @ExceptionHandler(ListaAlumnosVaciaException.class)
+    public ResponseEntity<String> handleListaAlumnosVaciaException(ListaUsuariosVaciaException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }
