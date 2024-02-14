@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +30,10 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 	@Autowired
 	private AlumnoRepository alumnoRepository;
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
+
 	@Autowired
 	private GradoRepository gradoRepository;
 
@@ -59,30 +60,30 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 	@Override
 	public Alumno actualizarAlumno(Long id, AlumnoDTO alumnoActualizado, Date nuevaFechaNacimiento) {
-	    Optional<Alumno> optionalAlumno = alumnoRepository.findById(id);
-	    if (optionalAlumno.isPresent()) {
-	        Alumno alumnoExistente = optionalAlumno.get();
-	        alumnoExistente.setNombre(alumnoActualizado.getNombre());
-	        alumnoExistente.setApellidos(alumnoActualizado.getApellidos());
-	        alumnoExistente.setFechaNacimiento(nuevaFechaNacimiento);
+		Optional<Alumno> optionalAlumno = alumnoRepository.findById(id);
+		if (optionalAlumno.isPresent()) {
+			Alumno alumnoExistente = optionalAlumno.get();
+			alumnoExistente.setNombre(alumnoActualizado.getNombre());
+			alumnoExistente.setApellidos(alumnoActualizado.getApellidos());
+			alumnoExistente.setFechaNacimiento(nuevaFechaNacimiento);
 
-	        int nuevaEdad = calcularEdad(nuevaFechaNacimiento);
+			int nuevaEdad = calcularEdad(nuevaFechaNacimiento);
 
-	        Categoria nuevaCategoria = asignarCategoriaSegunEdad(nuevaEdad);
-	        alumnoExistente.setCategoria(nuevaCategoria);
-	        
-	        alumnoExistente.setNumeroExpediente(alumnoActualizado.getNumeroExpediente());
-	        alumnoExistente.setNif(alumnoActualizado.getNif());
-	        alumnoExistente.setDireccion(alumnoActualizado.getDireccion());
-	        alumnoExistente.setEmail(alumnoActualizado.getEmail());
-	        alumnoExistente.setTelefono(alumnoActualizado.getTelefono());
-	        alumnoExistente.setTipoTarifa(alumnoActualizado.getTipoTarifa());
-	        alumnoExistente.setFechaAlta(alumnoActualizado.getFechaAlta());
-	        alumnoExistente.setFechaBaja(alumnoActualizado.getFechaBaja());
-	        return alumnoRepository.save(alumnoExistente);
-	    } else {
-	        throw new RuntimeException("No se encontró el alumno con ID: " + id);
-	    }
+			Categoria nuevaCategoria = asignarCategoriaSegunEdad(nuevaEdad);
+			alumnoExistente.setCategoria(nuevaCategoria);
+
+			alumnoExistente.setNumeroExpediente(alumnoActualizado.getNumeroExpediente());
+			alumnoExistente.setNif(alumnoActualizado.getNif());
+			alumnoExistente.setDireccion(alumnoActualizado.getDireccion());
+			alumnoExistente.setEmail(alumnoActualizado.getEmail());
+			alumnoExistente.setTelefono(alumnoActualizado.getTelefono());
+			alumnoExistente.setTipoTarifa(alumnoActualizado.getTipoTarifa());
+			alumnoExistente.setFechaAlta(alumnoActualizado.getFechaAlta());
+			alumnoExistente.setFechaBaja(alumnoActualizado.getFechaBaja());
+			return alumnoRepository.save(alumnoExistente);
+		} else {
+			throw new RuntimeException("No se encontró el alumno con ID: " + id);
+		}
 	}
 
 	@Override
@@ -92,49 +93,49 @@ public class AlumnoServiceImpl implements AlumnoService {
 			return true;
 		}).orElse(false);
 	}
-	
+
 	@Override
 	public double asignarCuantiaTarifa(TipoTarifa tipoTarifa) {
-	    switch (tipoTarifa) {
-	        case ADULTO:
-	            return 30.0;
-	        case ADULTO_GRUPO:
-	            return 20.0;
-	        case FAMILIAR:
-	            return 0.0;
-	        case INFANTIL:
-	            return 25.0;
-	        case INFANTIL_GRUPO:
-	            return 20.0;
-	        case HERMANOS:
-	            return 23.0;
-	        case PADRES_HIJOS:
-	            return 0.0;
-	        default:
-	            throw new IllegalArgumentException("Tipo de tarifa no válido: " + tipoTarifa);
-	    }
+		switch (tipoTarifa) {
+		case ADULTO:
+			return 30.0;
+		case ADULTO_GRUPO:
+			return 20.0;
+		case FAMILIAR:
+			return 0.0;
+		case INFANTIL:
+			return 25.0;
+		case INFANTIL_GRUPO:
+			return 20.0;
+		case HERMANOS:
+			return 23.0;
+		case PADRES_HIJOS:
+			return 0.0;
+		default:
+			throw new IllegalArgumentException("Tipo de tarifa no válido: " + tipoTarifa);
+		}
 	}
-	
+
 	@Override
 	public Categoria asignarCategoriaSegunEdad(int edad) {
-	    TipoCategoria tipoCategoria;
-	    if (edad >= 3 && edad <= 7) {
-	        tipoCategoria = TipoCategoria.PRETKD;
-	    } else if (edad >= 8 && edad <= 9) {
-	        tipoCategoria = TipoCategoria.INFANTIL;
-	    } else if (edad >= 10 && edad <= 11) {
-	        tipoCategoria = TipoCategoria.PRECADETE;
-	    } else if (edad >= 12 && edad <= 14) {
-	        tipoCategoria = TipoCategoria.CADETE;
-	    } else if (edad >= 15 && edad <= 17) {
-	        tipoCategoria = TipoCategoria.JUNIOR;
-	    } else if (edad >= 16 && edad <= 20) {
-	        tipoCategoria = TipoCategoria.SUB21;
-	    } else {
-	        tipoCategoria = TipoCategoria.SENIOR;
-	    }
+		TipoCategoria tipoCategoria;
+		if (edad >= 3 && edad <= 7) {
+			tipoCategoria = TipoCategoria.PRETKD;
+		} else if (edad >= 8 && edad <= 9) {
+			tipoCategoria = TipoCategoria.INFANTIL;
+		} else if (edad >= 10 && edad <= 11) {
+			tipoCategoria = TipoCategoria.PRECADETE;
+		} else if (edad >= 12 && edad <= 14) {
+			tipoCategoria = TipoCategoria.CADETE;
+		} else if (edad >= 15 && edad <= 17) {
+			tipoCategoria = TipoCategoria.JUNIOR;
+		} else if (edad >= 16 && edad <= 20) {
+			tipoCategoria = TipoCategoria.SUB21;
+		} else {
+			tipoCategoria = TipoCategoria.SENIOR;
+		}
 
-	    return categoriaRepository.findByNombre(tipoCategoria.getNombre());
+		return categoriaRepository.findByNombre(tipoCategoria.getNombre());
 	}
 
 	@Override
@@ -171,7 +172,47 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 		return edad;
 	}
-	
+
+	@Override
+	public boolean fechaNacimientoValida(Date fechaNacimiento) {
+	    Calendar fechaActualMenos3Anios = Calendar.getInstance();
+	    fechaActualMenos3Anios.add(Calendar.YEAR, -3);
+
+	    Calendar fechaNacimientoCalendar = Calendar.getInstance();
+	    fechaNacimientoCalendar.setTime(fechaNacimiento);
+
+	    return fechaNacimientoCalendar.before(fechaActualMenos3Anios);
+	}
+
+	@Override
+	public boolean datosAlumnoValidos(AlumnoDTO alumnoDTO) {
+		if (alumnoDTO.getNombre() == null || alumnoDTO.getNombre().isEmpty() || alumnoDTO.getApellidos() == null
+				|| alumnoDTO.getApellidos().isEmpty()) {
+			return false;
+		}
+		if (alumnoDTO.getFechaNacimiento() == null || alumnoDTO.getFechaNacimiento().after(new Date())) {
+			return false;
+		}
+		if (alumnoDTO.getNumeroExpediente() == null || alumnoDTO.getNumeroExpediente().isEmpty()
+				|| alumnoDTO.getNif() == null || alumnoDTO.getNif().isEmpty()) {
+			return false;
+		}
+		if (alumnoDTO.getDireccion() == null || alumnoDTO.getDireccion().isEmpty() || alumnoDTO.getEmail() == null
+				|| alumnoDTO.getEmail().isEmpty()) {
+			return false;
+		}
+		if (alumnoDTO.getTelefono() != null && alumnoDTO.getTelefono() <= 0) {
+			return false;
+		}
+		if (alumnoDTO.getTipoTarifa() == null) {
+			return false;
+		}
+		if (alumnoDTO.getFechaAlta() == null || alumnoDTO.getFechaAlta().after(new Date())) {
+			return false;
+		}
+		return true;
+	}
+
 	private AlumnoDTO mapeoParaAlumnoDTO(Alumno alumno) {
 		if (alumno == null) {
 			return null;

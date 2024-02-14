@@ -53,7 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signin(LoginRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
+        @SuppressWarnings("unused")
+		Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getContrasena()));
         
        // SecurityContextHolder.getContext().setAuthentication(authentication);
