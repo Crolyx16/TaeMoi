@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "9000c7c3-279f-4601-96a9-f518135b26b6",
+		"name": "API TAEMOI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32188944"
+	},
+	"item": [
+		{
+			"name": "Listar Alumnos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5ODE4ODYsImV4cCI6MTcwODAxNzg4Nn0.ReXP5JjjPnjdQGaRtvvaciyqbPPcvY1jUSBG-vTJeuM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Alumno Por Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5NDg5NTUsImV4cCI6MTcwNzk4NDk1NX0.-E8iYASjPlC4qOUv0r0HR9p-UFJP2QrPkuB4S4kiA4Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/19",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuarios",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5NDg5NTUsImV4cCI6MTcwNzk4NDk1NX0.-E8iYASjPlC4qOUv0r0HR9p-UFJP2QrPkuB4S4kiA4Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Alumnos DTO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgwMDAyNzUsImV4cCI6MTcwODAzNjI3NX0.J7v68VLpGDEOd7iNkmeLAo4MhpN2yLJyRWXzkp4FiJI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?page=2&size=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Alumno Por Id DTO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA3NzI5ODI3LCJleHAiOjE3MDc3NjU4Mjd9.7tpbjWDGdGdFXLLDZNkaGSx9RHvq-KHU_Uw1sPybW7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos/19",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Añadir alumno",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5ODE4ODYsImV4cCI6MTcwODAxNzg4Nn0.ReXP5JjjPnjdQGaRtvvaciyqbPPcvY1jUSBG-vTJeuM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Juan\",\r\n  \"apellidos\": \"Perez\",\r\n  \"numeroExpediente\": \"12345674\",\r\n  \"fechaNacimiento\": \"2021-01-01\",\r\n  \"nif\": \"12345677A\",\r\n  \"direccion\": \"Calle Principal, 123\",\r\n  \"telefono\": 123456789,\r\n  \"email\": \"juan@examples.com\",\r\n  \"tipoTarifa\": \"FAMILIAR\",\r\n  \"fechaAlta\": \"2023-01-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Alumno",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5MzU5NTcsImV4cCI6MTcwNzk3MTk1N30.uPgPUAwZGAOI5tzGjEbjwSxJy_EoXxY1XGsr0Ey9SA4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Juan\",\r\n  \"apellidos\": \"Perez\",\r\n  \"numeroExpediente\": \"12345675\",\r\n  \"fechaNacimiento\": \"1990-01-01\",\r\n  \"nif\": \"12345678A\",\r\n  \"direccion\": \"Calle Principal, 123\",\r\n  \"telefono\": 123456787,\r\n  \"email\": \"juan@examples.com\",\r\n  \"tipoTarifa\": \"FAMILIAR\",\r\n  \"fechaAlta\": \"2023-01-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos/41",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos",
+						"41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Alumno",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFlbEBlbWFpbC5lcyIsImlhdCI6MTcwNzcyNjc1MywiZXhwIjoxNzA3NzYyNzUzfQ.S2SyWeKO-hE8uXnzCSezweCDfYH-eLGbKDXILbyk_Uk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos/21",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos",
+						"21"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"crolyx16@gmail.com\",\r\n    \"contrasena\": \"17022003\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"moiskimdotaekwondo@gmail.com\",\r\n    \"contrasena\": \"09012013\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Carlos\",\r\n    \"apellidos\": \"Sanchez\",\r\n    \"email\": \"emaIl@email.es\",\r\n    \"contrasena\": \"12345\",\r\n    \"roles\": [\"ROLE_USER\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
