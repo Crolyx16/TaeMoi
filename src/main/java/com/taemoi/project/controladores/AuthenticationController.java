@@ -22,10 +22,6 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	public AuthenticationController(AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
-	}
-
 	@PostMapping("/signup")
 	public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody RegistroRequest request) {
 		JwtAuthenticationResponse response = authenticationService.signup(request);
