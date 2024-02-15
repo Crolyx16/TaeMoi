@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.taemoi.project.dtos.AlumnoDTO;
@@ -38,8 +40,8 @@ public class AlumnoServiceImpl implements AlumnoService {
 	private GradoRepository gradoRepository;
 
 	@Override
-	public List<Alumno> obtenerTodosLosAlumnos() {
-		return alumnoRepository.findAll();
+	public Page<Alumno> obtenerTodosLosAlumnos(Pageable pageable) {
+		return alumnoRepository.findAll(pageable);
 	}
 
 	@Override

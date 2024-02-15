@@ -1,8 +1,10 @@
 package com.taemoi.project.servicios;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.taemoi.project.dtos.AlumnoDTO;
 import com.taemoi.project.entidades.Alumno;
@@ -13,7 +15,7 @@ import com.taemoi.project.entidades.TipoTarifa;
 import jakarta.validation.Valid;
 
 public interface AlumnoService {
-	List<Alumno> obtenerTodosLosAlumnos();
+	Page<Alumno> obtenerTodosLosAlumnos(Pageable pageable);
 
 	Optional<Alumno> obtenerAlumnoPorId(Long id);
 
