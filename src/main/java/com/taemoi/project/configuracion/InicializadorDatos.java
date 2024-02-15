@@ -32,7 +32,7 @@ public class InicializadorDatos implements CommandLineRunner {
 
 	@Autowired
 	private AlumnoRepository alumnoRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -43,7 +43,7 @@ public class InicializadorDatos implements CommandLineRunner {
 	private GradoRepository gradoRepository;
 
 	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -55,27 +55,27 @@ public class InicializadorDatos implements CommandLineRunner {
 		generarGrados();
 
 		try {
-		    if (usuarioRepository.findByEmail("moiskimdotaekwondo@gmail.com").isEmpty()) {
-		        Usuario moiskimdo = new Usuario();
-		        moiskimdo.setNombre("Moiskimdo");
-		        moiskimdo.setApellidos("Taekwondo");
-		        moiskimdo.setEmail("moiskimdotaekwondo@gmail.com");
-		        moiskimdo.setContrasena(passwordEncoder.encode("09012013"));
-		        moiskimdo.getRoles().add(Roles.ROLE_USER);
-		        usuarioRepository.save(moiskimdo);
-		    }
+			if (usuarioRepository.findByEmail("moiskimdotaekwondo@gmail.com").isEmpty()) {
+				Usuario moiskimdo = new Usuario();
+				moiskimdo.setNombre("Moiskimdo");
+				moiskimdo.setApellidos("Taekwondo");
+				moiskimdo.setEmail("moiskimdotaekwondo@gmail.com");
+				moiskimdo.setContrasena(passwordEncoder.encode("09012013"));
+				moiskimdo.getRoles().add(Roles.ROLE_USER);
+				usuarioRepository.save(moiskimdo);
+			}
 
-		    if (usuarioRepository.findByEmail("crolyx16@gmail.com").isEmpty()) {
-		        Usuario admin = new Usuario();
-		        admin.setNombre("Carlos");
-		        admin.setApellidos("Sanchez Roman");
-		        admin.setEmail("crolyx16@gmail.com");
-		        admin.setContrasena(passwordEncoder.encode("17022003"));
-		        admin.getRoles().add(Roles.ROLE_ADMIN);
-		        usuarioRepository.save(admin);
-		    }
+			if (usuarioRepository.findByEmail("crolyx16@gmail.com").isEmpty()) {
+				Usuario admin = new Usuario();
+				admin.setNombre("Carlos");
+				admin.setApellidos("Sanchez Roman");
+				admin.setEmail("crolyx16@gmail.com");
+				admin.setContrasena(passwordEncoder.encode("17022003"));
+				admin.getRoles().add(Roles.ROLE_ADMIN);
+				usuarioRepository.save(admin);
+			}
 		} catch (Exception e) {
-			
+
 		}
 
 		Faker faker = new Faker(new Locale("es"));

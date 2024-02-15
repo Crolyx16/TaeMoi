@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.taemoi.project.dtos.UsuarioDTO;
 
 public interface UsuarioService {
-    UserDetailsService userDetailsService();
-    List<UsuarioDTO> obtenerTodos();
+	UserDetailsService userDetailsService();
+
+	List<UsuarioDTO> obtenerTodos();
 }

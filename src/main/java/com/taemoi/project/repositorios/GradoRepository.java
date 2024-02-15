@@ -10,6 +10,7 @@ import com.taemoi.project.entidades.TipoGrado;
 
 @Repository
 public interface GradoRepository extends JpaRepository<Grado, Long> {
-    Grado findByTipoGrado(TipoGrado tipoGrado);
-    Grado findByTipoGradoIn(List<TipoGrado> tiposGrado);
+	Grado findByTipoGrado(TipoGrado tipoGrado);
+
+	Grado findByTipoGradoIn(List<TipoGrado> tiposGrado);
 }

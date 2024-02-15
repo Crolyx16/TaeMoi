@@ -9,7 +9,9 @@ import com.taemoi.project.entidades.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Optional<Usuario> findByEmail(String email);
-    Optional<Usuario> findById(Long id);
-    Boolean existsByEmail(String email);
+	Optional<Usuario> findByEmail(String email);
+
+	Optional<Usuario> findById(Long id);
+
+	Boolean existsByEmail(String email);
 }

@@ -27,39 +27,39 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-    @NotBlank(message = "El nombre no puede estar en blanco")
-    private String nombre;
+	@NotBlank(message = "El nombre no puede estar en blanco")
+	private String nombre;
 
-    @NotBlank(message = "Los apellidos no pueden estar en blanco")
-    private String apellidos;
-    
-    @Column(unique = true)
-    @NotBlank(message = "El número de expediente no puede estar en blanco")
-    private String numeroExpediente;
+	@NotBlank(message = "Los apellidos no pueden estar en blanco")
+	private String apellidos;
 
-    @NotNull(message = "La fecha de nacimiento no puede ser nula")
-    @Temporal(TemporalType.DATE)
-    private Date fechaNacimiento;
+	@Column(unique = true)
+	@NotBlank(message = "El número de expediente no puede estar en blanco")
+	private String numeroExpediente;
 
-    @NotBlank(message = "El NIF no puede estar en blanco")
-    private String nif;
+	@NotNull(message = "La fecha de nacimiento no puede ser nula")
+	@Temporal(TemporalType.DATE)
+	private Date fechaNacimiento;
 
-    @NotBlank(message = "La dirección no puede estar en blanco")
-    private String direccion;
+	@NotBlank(message = "El NIF no puede estar en blanco")
+	private String nif;
 
-    @NotNull(message = "El teléfono no puede ser nulo")
-    private Integer telefono;
+	@NotBlank(message = "La dirección no puede estar en blanco")
+	private String direccion;
 
-    @Email(message = "La dirección de correo electrónico debe ser válida")
-    private String email;
+	@NotNull(message = "El teléfono no puede ser nulo")
+	private Integer telefono;
 
-    @NotNull(message = "El tipo de tarifa no puede ser nulo")
-    @Enumerated(EnumType.STRING)
-    private TipoTarifa tipoTarifa;
+	@Email(message = "La dirección de correo electrónico debe ser válida")
+	private String email;
 
-    @NotNull(message = "La cuantía de la tarifa no puede ser nula")
-    private Double cuantiaTarifa;
-	
+	@NotNull(message = "El tipo de tarifa no puede ser nulo")
+	@Enumerated(EnumType.STRING)
+	private TipoTarifa tipoTarifa;
+
+	@NotNull(message = "La cuantía de la tarifa no puede ser nula")
+	private Double cuantiaTarifa;
+
 	@Temporal(TemporalType.DATE)
 	private Date fechaAlta;
 

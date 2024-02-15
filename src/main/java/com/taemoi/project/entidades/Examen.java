@@ -27,7 +27,7 @@ public class Examen {
 	private Grado grado;
 
 	@Temporal(TemporalType.DATE)
-    @NotNull(message = "La fecha del examen no puede ser nula")
+	@NotNull(message = "La fecha del examen no puede ser nula")
 	private Date fecha;
 
 	@ManyToOne

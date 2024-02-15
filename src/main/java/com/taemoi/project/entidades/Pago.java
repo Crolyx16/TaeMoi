@@ -26,23 +26,23 @@ public class Pago {
 	@JoinColumn(name = "alumno_id")
 	private Alumno alumno;
 
-    @NotBlank(message = "El número de expediente del alumno no puede estar en blanco")
-    @Column(name = "numero_expediente_alumno")
-    private String numeroExpedienteAlumno;
+	@NotBlank(message = "El número de expediente del alumno no puede estar en blanco")
+	@Column(name = "numero_expediente_alumno")
+	private String numeroExpedienteAlumno;
 
-    @NotBlank(message = "El concepto no puede estar en blanco")
-    private String concepto;
+	@NotBlank(message = "El concepto no puede estar en blanco")
+	private String concepto;
 
-    @NotNull(message = "La fecha del pago no puede ser nula")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+	@NotNull(message = "La fecha del pago no puede ser nula")
+	@Temporal(TemporalType.DATE)
+	private Date fecha;
 
-    @NotNull(message = "La cuantía del pago no puede ser nula")
-    private Double cuantia;
+	@NotNull(message = "La cuantía del pago no puede ser nula")
+	private Double cuantia;
 
-    @NotNull(message = "El estado del pago no puede ser nulo")
-    @Enumerated(EnumType.STRING)
-    private EstadoPago estado;
+	@NotNull(message = "El estado del pago no puede ser nulo")
+	@Enumerated(EnumType.STRING)
+	private EstadoPago estado;
 
 	public Long getId() {
 		return id;

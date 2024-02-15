@@ -26,16 +26,16 @@ public interface AlumnoService {
 	Alumno actualizarAlumno(@Valid Long id, AlumnoDTO alumnoActualizado, Date nuevaFechaNacimiento);
 
 	boolean eliminarAlumno(@Valid Long id);
-	
+
 	double asignarCuantiaTarifa(TipoTarifa tipoTarifa);
-	
+
 	Categoria asignarCategoriaSegunEdad(int edad);
-	
+
 	Grado asignarGradoSegunEdad(AlumnoDTO nuevoAlumnoDTO);
-	
+
 	int calcularEdad(Date fechaNacimiento);
-	
+
 	boolean fechaNacimientoValida(Date fechaNacimiento);
-	
+
 	boolean datosAlumnoValidos(AlumnoDTO alumnoDTO);
 }

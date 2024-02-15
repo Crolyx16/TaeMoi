@@ -177,13 +177,13 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 	@Override
 	public boolean fechaNacimientoValida(Date fechaNacimiento) {
-	    Calendar fechaActualMenos3Anios = Calendar.getInstance();
-	    fechaActualMenos3Anios.add(Calendar.YEAR, -3);
+		Calendar fechaActualMenos3Anios = Calendar.getInstance();
+		fechaActualMenos3Anios.add(Calendar.YEAR, -3);
 
-	    Calendar fechaNacimientoCalendar = Calendar.getInstance();
-	    fechaNacimientoCalendar.setTime(fechaNacimiento);
+		Calendar fechaNacimientoCalendar = Calendar.getInstance();
+		fechaNacimientoCalendar.setTime(fechaNacimiento);
 
-	    return fechaNacimientoCalendar.before(fechaActualMenos3Anios);
+		return fechaNacimientoCalendar.before(fechaActualMenos3Anios);
 	}
 
 	@Override

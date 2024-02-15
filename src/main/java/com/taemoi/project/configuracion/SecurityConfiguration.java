@@ -1,5 +1,6 @@
 package com.taemoi.project.configuracion;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.taemoi.project.entidades.Roles;
 import com.taemoi.project.servicios.UsuarioService;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -25,13 +27,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+	@Autowired
 	private UsuarioService usuarioService;
-	
-	public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, UsuarioService usuarioService) {
-		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-		this.usuarioService = usuarioService;
-	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,10 +45,8 @@ public class SecurityConfiguration {
 						.hasAnyAuthority(Roles.ROLE_USER.toString(), Roles.ROLE_ADMIN.toString())
 						.requestMatchers(HttpMethod.DELETE, "/api/alumnos/**")
 						.hasAnyAuthority(Roles.ROLE_USER.toString(), Roles.ROLE_ADMIN.toString())
-						.requestMatchers(HttpMethod.GET, "/api/admin/**")
-						.hasAnyAuthority(Roles.ROLE_ADMIN.toString())
-						.anyRequest()
-						.authenticated())
+						.requestMatchers(HttpMethod.GET, "/api/admin/**").hasAnyAuthority(Roles.ROLE_ADMIN.toString())
+						.anyRequest().authenticated())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

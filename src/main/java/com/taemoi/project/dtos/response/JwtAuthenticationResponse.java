@@ -1,8 +1,7 @@
 package com.taemoi.project.dtos.response;
 
-
 public class JwtAuthenticationResponse {
-    private String token;
+	private String token;
 
 	public JwtAuthenticationResponse(String token) {
 		this.token = token;
@@ -16,21 +15,21 @@ public class JwtAuthenticationResponse {
 		this.token = token;
 	}
 
-    public static JwtAuthenticationResponseBuilder builder() {
-        return new JwtAuthenticationResponseBuilder();
-    }
+	public static JwtAuthenticationResponseBuilder builder() {
+		return new JwtAuthenticationResponseBuilder();
+	}
 
-    public static class JwtAuthenticationResponseBuilder {
-        private String token;
+	public static class JwtAuthenticationResponseBuilder {
+		private String token;
 
-        public JwtAuthenticationResponseBuilder token(String token) {
-            this.token = token;
-            return this;
-        }
+		public JwtAuthenticationResponseBuilder token(String token) {
+			this.token = token;
+			return this;
+		}
 
-        public JwtAuthenticationResponse build() {
-            return new JwtAuthenticationResponse(token);
-        }
-    }
-    
+		public JwtAuthenticationResponse build() {
+			return new JwtAuthenticationResponse(token);
+		}
+	}
+
 }

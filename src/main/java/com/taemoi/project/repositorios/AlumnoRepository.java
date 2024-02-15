@@ -12,5 +12,6 @@ import com.taemoi.project.entidades.Alumno;
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
 
 	AlumnoDTO save(AlumnoDTO alumno);
+
 	Optional<Alumno> findByNif(String nif);
 }

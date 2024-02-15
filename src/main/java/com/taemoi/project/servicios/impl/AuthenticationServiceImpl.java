@@ -1,5 +1,6 @@
 package com.taemoi.project.servicios.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,14 +22,15 @@ import lombok.Builder;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+	@Autowired
 	private UsuarioRepository usuarioRepository;
+
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
 
-	public AuthenticationServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder,
-			JwtService jwtService, AuthenticationManager authenticationManager) {
-		this.usuarioRepository = usuarioRepository;
+	public AuthenticationServiceImpl(PasswordEncoder passwordEncoder, JwtService jwtService,
+			AuthenticationManager authenticationManager) {
 		this.passwordEncoder = passwordEncoder;
 		this.jwtService = jwtService;
 		this.authenticationManager = authenticationManager;
@@ -51,17 +53,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return new JwtAuthenticationResponse(jwt);
 	}
 
-    @Override
-    public JwtAuthenticationResponse signin(LoginRequest request) {
-        @SuppressWarnings("unused")
-		Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getContrasena()));
-        
-       // SecurityContextHolder.getContext().setAuthentication(authentication);
+	@Override
+	public JwtAuthenticationResponse signin(LoginRequest request) {
+		@SuppressWarnings("unused")
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getContrasena()));
 
-        Usuario user = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Email o contraseña inválidos."));
-        String jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
-    }
+		// SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		Usuario user = usuarioRepository.findByEmail(request.getEmail())
+				.orElseThrow(() -> new IllegalArgumentException("Email o contraseña inválidos."));
+		String jwt = jwtService.generateToken(user);
+		return JwtAuthenticationResponse.builder().token(jwt).build();
+	}
 }

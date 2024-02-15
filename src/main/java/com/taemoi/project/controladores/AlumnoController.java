@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,13 +54,13 @@ public class AlumnoController {
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public Page<AlumnoDTO> obtenerAlumnosDTO(Pageable pageable) {
-	    logger.info("## AlumnoController :: mostrarAlumnos");
-	    pageable = PageRequest.of(pageable.getPageNumber(), 5, pageable.getSort());
-	    Page<Alumno> alumnos = alumnoRepository.findAll(pageable);
-	    if (alumnos.isEmpty()) {
-	        throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
-	    }
-	    return alumnos.map(AlumnoDTO::deAlumno);
+		logger.info("## AlumnoController :: mostrarAlumnos");
+		pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("nombre").ascending());
+		Page<Alumno> alumnos = alumnoRepository.findAll(pageable);
+		if (alumnos.isEmpty()) {
+			throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
+		}
+		return alumnos.map(AlumnoDTO::deAlumno);
 	}
 
 	@GetMapping("/{id}")
