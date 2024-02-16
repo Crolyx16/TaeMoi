@@ -21,10 +21,13 @@ public class AlumnoDTO {
 	private String categoria;
 	private String grado;
 
+	public AlumnoDTO() {
+
+	}
+
 	public AlumnoDTO(String nombre, String apellidos, Date fechaNacimiento, String numeroExpediente, String nif,
 			String direccion, String email, Integer telefono, Double cuantiaTarifa, TipoTarifa tipoTarifa,
 			Date fechaAlta, Date fechaBaja, String categoria, String grado) {
-		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fechaNacimiento = fechaNacimiento;

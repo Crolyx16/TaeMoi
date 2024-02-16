@@ -21,10 +21,10 @@ public class Grado {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-    @NotNull(message = "El tipo de grado no puede ser nulo")
-    @Enumerated(EnumType.STRING)
-    private TipoGrado tipoGrado;
+
+	@NotNull(message = "El tipo de grado no puede ser nulo")
+	@Enumerated(EnumType.STRING)
+	private TipoGrado tipoGrado;
 
 	@OneToMany(mappedBy = "grado", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonBackReference

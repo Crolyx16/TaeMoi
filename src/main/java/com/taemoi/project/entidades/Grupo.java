@@ -24,27 +24,27 @@ public class Grupo {
 	@JoinColumn(name = "alumno_id")
 	private Alumno alumno;
 
-    @NotBlank(message = "El número de expediente del alumno no puede estar en blanco")
-    @Column(name = "numero_expediente_alumno")
-    private String numeroExpedienteAlumno;
+	@NotBlank(message = "El número de expediente del alumno no puede estar en blanco")
+	@Column(name = "numero_expediente_alumno")
+	private String numeroExpedienteAlumno;
 
-    @Min(value = 1, message = "El día de la semana debe ser al menos 1")
-    @Max(value = 7, message = "El día de la semana debe ser como máximo 7")
-    private int diaSemana;
+	@Min(value = 1, message = "El día de la semana debe ser al menos 1")
+	@Max(value = 7, message = "El día de la semana debe ser como máximo 7")
+	private int diaSemana;
 
-    @NotBlank(message = "El día no puede estar en blanco")
-    private String dia;
+	@NotBlank(message = "El día no puede estar en blanco")
+	private String dia;
 
-    @NotBlank(message = "El turno no puede estar en blanco")
-    private String turno;
+	@NotBlank(message = "El turno no puede estar en blanco")
+	private String turno;
 
-    @NotBlank(message = "La hora de inicio no puede estar en blanco")
-    @Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", message = "Formato de hora no válido")
-    private String horaInicio;
+	@NotBlank(message = "La hora de inicio no puede estar en blanco")
+	@Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", message = "Formato de hora no válido")
+	private String horaInicio;
 
-    @NotBlank(message = "La hora de fin no puede estar en blanco")
-    @Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", message = "Formato de hora no válido")
-    private String horaFin;
+	@NotBlank(message = "La hora de fin no puede estar en blanco")
+	@Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", message = "Formato de hora no válido")
+	private String horaFin;
 
 	public Long getId() {
 		return id;
