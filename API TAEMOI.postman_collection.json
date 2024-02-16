@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9000c7c3-279f-4601-96a9-f518135b26b6",
+		"_postman_id": "526a68f2-1331-453f-b42b-a4bbc45f734e",
 		"name": "API TAEMOI",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32188944"
@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgwMzU5MDMsImV4cCI6MTcwODA3MTkwM30.OuV8uGOH2krlZC44Dv8kPf2etD9T3tDGvG4UkABkTNk",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA4MDcxOTM4LCJleHAiOjE3MDgxMDc5Mzh9.46QzuXOwSsgpIVBo8M2M6XihAbJkzx3nAIMYGhrSN4U",
 							"type": "string"
 						}
 					]
@@ -22,7 +22,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/admin?page=1&size=10",
+					"raw": "http://localhost:8080/api/admin?{{numPagina}}&{{tamPagina}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -34,12 +34,12 @@
 					],
 					"query": [
 						{
-							"key": "page",
-							"value": "1"
+							"key": "{{numPagina}}",
+							"value": null
 						},
 						{
-							"key": "size",
-							"value": "10"
+							"key": "{{tamPagina}}",
+							"value": null
 						}
 					]
 				}
@@ -85,7 +85,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5NDg5NTUsImV4cCI6MTcwNzk4NDk1NX0.-E8iYASjPlC4qOUv0r0HR9p-UFJP2QrPkuB4S4kiA4Y",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgwNzEwNzcsImV4cCI6MTcwODEwNzA3N30.QgT_eEfEXrdvJmErnYlXHS8MWUmqgAjv078MVC4Mrvo",
 							"type": "string"
 						}
 					]
@@ -116,7 +116,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA4MDM1NjcyLCJleHAiOjE3MDgwNzE2NzJ9.cyO4SoLVVpk7E5HaJcfIkNz5HcXdUJ-QlD8FZWnwl9k",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA4MDcxOTM4LCJleHAiOjE3MDgxMDc5Mzh9.46QzuXOwSsgpIVBo8M2M6XihAbJkzx3nAIMYGhrSN4U",
 							"type": "string"
 						}
 					]
@@ -124,7 +124,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/alumnos?page=1&size=10",
+					"raw": "http://localhost:8080/api/alumnos?{{numPagina}}&{{tamPagina}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -136,12 +136,12 @@
 					],
 					"query": [
 						{
-							"key": "page",
-							"value": "1"
+							"key": "{{numPagina}}",
+							"value": null
 						},
 						{
-							"key": "size",
-							"value": "10"
+							"key": "{{tamPagina}}",
+							"value": null
 						}
 					]
 				}
@@ -378,6 +378,38 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "numPagina",
+			"value": "page=1",
+			"type": "string"
+		},
+		{
+			"key": "tamPagina",
+			"value": "size=10",
+			"type": "string"
 		}
 	]
 }

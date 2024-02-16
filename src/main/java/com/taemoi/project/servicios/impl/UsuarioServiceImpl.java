@@ -22,6 +22,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	public UsuarioServiceImpl(UsuarioRepository usuarioRepository2) {
+	}
+
 	@Override
 	public UserDetailsService userDetailsService() {
 		return new UserDetailsService() {
