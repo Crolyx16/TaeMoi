@@ -20,6 +20,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -28,10 +30,18 @@ public class Usuario implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message = "El nombre no puede estar en blanco")
 	private String nombre;
+	
+	@NotBlank(message = "Los apellidos no pueden estar en blanco")
 	private String apellidos;
+	
 	@Column(unique = true)
+	@Email(message = "La dirección de correo electrónico debe ser válida")
 	private String email;
+	
+	@NotBlank(message = "La contraseña no puede estar en blanco")
 	private String contrasena;
 
 	@ElementCollection(fetch = FetchType.EAGER, targetClass = Roles.class)

@@ -42,11 +42,9 @@ import jakarta.validation.Valid;
 public class AlumnoController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-	@Autowired
-	private AlumnoService alumnoService;
+	@Autowired AlumnoService alumnoService;
 
-	@Autowired
-	private AlumnoRepository alumnoRepository;
+	@Autowired AlumnoRepository alumnoRepository;
 
 	@Autowired
 	private GradoRepository gradoRepository;
@@ -149,4 +147,12 @@ public class AlumnoController {
 		boolean eliminado = alumnoService.eliminarAlumno(id);
 		return eliminado ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+    public void setAlumnoService(AlumnoService alumnoService) {
+        this.alumnoService = alumnoService;
+    }
+    
+    public void setAlumnoRepository(AlumnoRepository alumnoRepository) {
+        this.alumnoRepository = alumnoRepository;
+    }
 }
