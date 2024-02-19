@@ -209,50 +209,6 @@
 			"response": []
 		},
 		{
-			"name": "Filtrar alumnos por nombre",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNjY4OTUsImV4cCI6MTcwODQwMjg5NX0.yZsFSzLiZelUkDFE7kGCj7kxk4ARhxVQHKR5_y8CIPQ",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/alumnos?{{numPagina}}&{{tamPagina}}&nombre=Juan",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"alumnos"
-					],
-					"query": [
-						{
-							"key": "{{numPagina}}",
-							"value": null
-						},
-						{
-							"key": "{{tamPagina}}",
-							"value": null
-						},
-						{
-							"key": "nombre",
-							"value": "Juan"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Listar Alumno Por Id DTO",
 			"request": {
 				"auth": {
@@ -278,6 +234,278 @@
 						"api",
 						"alumnos",
 						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por nombre",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{nombre}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{nombre}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por categoría",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{nombre}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{nombre}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por grado",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{gradoId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{gradoId}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por nombre y grado",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{nombre}}&{{gradoId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{nombre}}",
+							"value": null
+						},
+						{
+							"key": "{{gradoId}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por nombre y categoría",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{nombre}}&{{categoriaId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{nombre}}",
+							"value": null
+						},
+						{
+							"key": "{{categoriaId}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por grado y categoría",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{gradoId}}&{{categoriaId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{gradoId}}",
+							"value": null
+						},
+						{
+							"key": "{{categoriaId}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por nombre, grado y categoría",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNzEwOTYsImV4cCI6MTcwODQwNzA5Nn0.N1bnVNLpeqjRLlFZe-o8lFpl5WZu32dYGmK7ppMI5mM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{nombre}}&{{gradoId}}&{{categoriaId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{nombre}}",
+							"value": null
+						},
+						{
+							"key": "{{gradoId}}",
+							"value": null
+						},
+						{
+							"key": "{{categoriaId}}",
+							"value": null
+						}
 					]
 				}
 			},
@@ -517,17 +745,17 @@
 		},
 		{
 			"key": "gradoId",
-			"value": "gradoId=2",
+			"value": "gradoId=3",
 			"type": "string"
 		},
 		{
 			"key": "categoriaId",
-			"value": "categoriaId=1",
+			"value": "categoriaId=7",
 			"type": "string"
 		},
 		{
 			"key": "nombre",
-			"value": "nombre=Clemente",
+			"value": "nombre=Alberto",
 			"type": "string"
 		}
 	]

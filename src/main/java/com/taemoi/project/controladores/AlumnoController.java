@@ -3,12 +3,12 @@ package com.taemoi.project.controladores;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,20 +57,27 @@ public class AlumnoController {
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> obtenerAlumnosDTO(@RequestParam(required = false) Integer page,
-			@RequestParam(required = false) Integer size, @RequestParam(required = false) String nombre) {
-	    logger.info("## AlumnoController :: obtenerAlumnosDTO :: Iniciando método");
-	    logger.info("## AlumnoController :: obtenerAlumnosDTO :: Parámetros recibidos - page: {}, size: {}, nombre: {}", page, size, nombre);
+			@RequestParam(required = false) Integer size, @RequestParam(required = false) String nombre,
+			@RequestParam(required = false) Long gradoId, @RequestParam(required = false) Long categoriaId) {
+
+		logger.info("## AlumnoController :: obtenerAlumnosDTO :: Iniciando método");
+		logger.info(
+				"## AlumnoController :: obtenerAlumnosDTO :: Parámetros recibidos - page: {}, size: {}, nombre: {}, gradoId: {}, categoriaId: {}",
+				page, size, nombre, gradoId, categoriaId);
+
 		if (page != null && size != null) {
 			logger.info("## AlumnoController :: mostrarAlumnos paginados");
-			Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
 
+			Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
 			Page<Alumno> alumnos;
 
-			if (nombre != null) {
-				logger.info("## AlumnoController :: obtenerAlumnosDTO :: Filtrando por nombre: {}", nombre);
-				alumnos = alumnoService.obtenerAlumnosPorNombre(nombre, pageable);
+			if (nombre != null && !nombre.isEmpty() || gradoId != null || categoriaId != null) {
+				logger.info(
+						"## AlumnoController :: obtenerAlumnosDTO :: Filtrando por nombre: {}, gradoId: {}, categoriaId: {}",
+						nombre, gradoId, categoriaId);
+				alumnos = alumnoService.obtenerAlumnosFiltrados(nombre, gradoId, categoriaId, pageable);
 			} else {
-				logger.info("## AlumnoController :: obtenerAlumnosDTO :: Obteniendo todos los alumnos");
+				logger.info("## AlumnoController :: obtenerAlumnosDTO :: Obteniendo todos los alumnos paginados");
 				alumnos = alumnoService.obtenerTodosLosAlumnos(pageable);
 			}
 
@@ -83,13 +90,25 @@ public class AlumnoController {
 			return ResponseEntity.ok(alumnos.map(AlumnoDTO::deAlumno));
 		} else {
 			logger.info("## AlumnoController :: mostrarTodosLosAlumnos");
-			List<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos();
+			List<Alumno> alumnos;
+
+			if (nombre != null && !nombre.isEmpty() || gradoId != null || categoriaId != null) {
+				logger.info(
+						"## AlumnoController :: obtenerAlumnosDTO :: Filtrando por nombre: {}, gradoId: {}, categoriaId: {}",
+						nombre, gradoId, categoriaId);
+				alumnos = alumnoService.obtenerAlumnosFiltrados(nombre, gradoId, categoriaId);
+			} else {
+				logger.info("## AlumnoController :: obtenerAlumnosDTO :: Obteniendo todos los alumnos");
+				alumnos = alumnoService.obtenerTodosLosAlumnos();
+			}
+
 			if (alumnos.isEmpty()) {
 				logger.warn("No hay usuarios registrados en el sistema.");
 				return ResponseEntity.ok(Page.empty());
 			}
+
 			logger.info("## AlumnoController :: obtenerAlumnosDTO :: Se encontraron alumnos, retornando respuesta.");
-			return ResponseEntity.ok(new PageImpl<>(alumnos).map(AlumnoDTO::deAlumno));
+			return ResponseEntity.ok(alumnos.stream().map(AlumnoDTO::deAlumno).collect(Collectors.toList()));
 		}
 	}
 

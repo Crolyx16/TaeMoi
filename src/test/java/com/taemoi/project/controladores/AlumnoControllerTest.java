@@ -51,7 +51,7 @@ class AlumnoControllerTest {
 
 	    when(alumnoService.obtenerTodosLosAlumnos(any(Pageable.class))).thenReturn(alumnosPage);
 
-	    ResponseEntity<?> responseEntity = alumnoController.obtenerAlumnosDTO(null, null, null);
+	    ResponseEntity<?> responseEntity = alumnoController.obtenerAlumnosDTO(null, null, null, null, null);
 
 	    assertTrue(responseEntity.getBody() instanceof Page);
 	    assertTrue(((Page<?>) responseEntity.getBody()).isEmpty());
