@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(ListaAlumnosVaciaException.class)
-	public ResponseEntity<String> handleListaAlumnosVaciaException(ListaUsuariosVaciaException e) {
+	public ResponseEntity<String> handleListaAlumnosVaciaException(ListaAlumnosVaciaException e) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 }

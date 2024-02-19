@@ -1,94 +1,68 @@
 package com.taemoi.project.servicios;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.taemoi.project.dtos.request.LoginRequest;
 import com.taemoi.project.dtos.request.RegistroRequest;
-import com.taemoi.project.dtos.response.JwtAuthenticationResponse;
-import com.taemoi.project.entidades.Usuario;
 import com.taemoi.project.repositorios.UsuarioRepository;
 import com.taemoi.project.servicios.impl.AuthenticationServiceImpl;
 
-@SuppressWarnings("deprecation")
+@SpringBootTest
 public class AuthenticationServiceImplTest {
 
-    @Mock
-    private UsuarioRepository usuarioRepository;
+	@Mock
+	private UsuarioRepository usuarioRepository;
 
-    @Mock
-    private JwtService jwtService;
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
-    @Mock
-    private AuthenticationManager authenticationManager;
+	@Mock
+	private JwtService jwtService;
 
-    @Mock
-    private PasswordEncoder passwordEncoder;
+	@Mock
+	private AuthenticationManager authenticationManager;
 
-    @InjectMocks
-    private AuthenticationServiceImpl authenticationService;
+	@InjectMocks
+	private AuthenticationServiceImpl authenticationService;
 
-    {
-        MockitoAnnotations.initMocks(this); // Inicializa las anotaciones de Mockito
-    }
-    
-    @Test
-    public void testSignup() {
-        // Configurar datos de prueba
-        RegistroRequest registroRequest = new RegistroRequest("nombre", "apellidos", "correo@example.com", "contraseña");
+    @BeforeEach
+    public void setUp() {
+		MockitoAnnotations.openMocks(this);
+	}
 
-        // Mockear el comportamiento del repositorio de usuarios
-        when(usuarioRepository.existsByEmail(registroRequest.getEmail())).thenReturn(false);
+	@Test
+	public void testSignup_EmailYaExiste() {
+		RegistroRequest request = new RegistroRequest("John", "Doe", "john@example.com", "password");
 
-        // Mockear el comportamiento del codificador de contraseñas
-        when(passwordEncoder.encode(registroRequest.getContrasena())).thenReturn("contraseñaCodificada");
+		when(usuarioRepository.existsByEmail(request.getEmail())).thenReturn(true);
 
-        // Mockear el comportamiento del servicio JWT
-        when(jwtService.generateToken(any())).thenReturn("tokenJWT");
+		assertThrows(IllegalArgumentException.class, () -> authenticationService.signup(request));
 
-        // Ejecutar el método de registro de usuarios
-        JwtAuthenticationResponse respuesta = authenticationService.signup(registroRequest);
+		verify(usuarioRepository, never()).save(any());
+	}
 
-        // Verificar el resultado
-        assertNotNull(respuesta);
-        assertEquals("tokenJWT", respuesta.getToken());
-    }
-    
-    @Test
-    public void testSignin() {
-        // Configurar datos de prueba
-        LoginRequest loginRequest = new LoginRequest("correo@example.com", "contraseña");
+	@Test
+	public void testSignin_CredencialesNoValidas() {
+		LoginRequest request = new LoginRequest("john@example.com", "password");
 
-        // Mockear el comportamiento del repositorio de usuarios
-        Usuario usuario = new Usuario();
-        usuario.setNombre("nombre");
-        usuario.setApellidos("apellidos");
-        usuario.setEmail("correo@example.com");
-        usuario.setContrasena("contraseñaCodificada");
-        when(usuarioRepository.findByEmail(loginRequest.getEmail())).thenReturn(Optional.of(usuario));
+		when(authenticationManager.authenticate(any())).thenThrow(new IllegalArgumentException());
+		when(usuarioRepository.findByEmail(request.getEmail())).thenReturn(Optional.empty());
 
-        // Mockear el comportamiento del AuthenticationManager
-        // (No es necesario para esta prueba porque no estamos probando la autenticación real)
-
-        // Mockear el comportamiento del servicio JWT
-        when(jwtService.generateToken(any())).thenReturn("tokenJWT");
-
-        // Ejecutar el método de inicio de sesión de usuarios
-        JwtAuthenticationResponse respuesta = authenticationService.signin(loginRequest);
-
-        // Verificar el resultado
-        assertNotNull(respuesta);
-        assertEquals("tokenJWT", respuesta.getToken());
-    }
+		assertThrows(IllegalArgumentException.class, () -> authenticationService.signin(request));
+	}
 }

@@ -43,17 +43,96 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public Page<Alumno> obtenerTodosLosAlumnos(Pageable pageable) {
 		return alumnoRepository.findAll(pageable);
 	}
+	
+	@Override
+	public List<Alumno> obtenerTodosLosAlumnos() {
+		return alumnoRepository.findAll();
+	}
 
 	@Override
 	public Optional<Alumno> obtenerAlumnoPorId(Long id) {
 		return alumnoRepository.findById(id);
 	}
-
+	
 	@Override
 	public Optional<AlumnoDTO> obtenerAlumnoDTOPorId(Long id) {
 		Optional<Alumno> optionalAlumno = obtenerAlumnoPorId(id);
 		return optionalAlumno.map(this::mapeoParaAlumnoDTO);
 	}
+	
+	@Override
+	public Page<Alumno> obtenerAlumnosFiltrados(String nombre, Long gradoId, Long categoriaId, Pageable pageable) {
+	    if (nombre != null && gradoId != null && categoriaId != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoIdAndCategoriaId(nombre, gradoId, categoriaId, pageable);
+	    } else if (nombre != null && gradoId != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoId(nombre, gradoId, pageable);
+	    } else if (nombre != null && categoriaId != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaId(nombre, categoriaId, pageable);
+	    } else if (gradoId != null && categoriaId != null) {
+	        return alumnoRepository.findByGradoIdAndCategoriaId(gradoId, categoriaId, pageable);
+	    } else if (nombre != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCase(nombre, pageable);
+	    } else if (gradoId != null) {
+	        return alumnoRepository.findByGradoId(gradoId, pageable);
+	    } else if (categoriaId != null) {
+	        return alumnoRepository.findByCategoriaId(categoriaId, pageable);
+	    } else {
+	        throw new IllegalArgumentException("Debe proporcionar al menos un criterio de filtrado");
+	    }
+	}
+	
+	@Override
+	public List<Alumno> obtenerAlumnosFiltrados(String nombre, Long gradoId, Long categoriaId) {
+	    if (nombre != null && gradoId != null && categoriaId != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoIdAndCategoriaId(nombre, gradoId, categoriaId);
+	    } else if (nombre != null && gradoId != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoId(nombre, gradoId);
+	    } else if (nombre != null && categoriaId != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaId(nombre, categoriaId);
+	    } else if (gradoId != null && categoriaId != null) {
+	        return alumnoRepository.findByGradoIdAndCategoriaId(gradoId, categoriaId);
+	    } else if (nombre != null) {
+	        return alumnoRepository.findByNombreContainingIgnoreCase(nombre);
+	    } else if (gradoId != null) {
+	        return alumnoRepository.findByGradoId(gradoId);
+	    } else if (categoriaId != null) {
+	        return alumnoRepository.findByCategoriaId(categoriaId);
+	    } else {
+	        throw new IllegalArgumentException("Debe proporcionar al menos un criterio de filtrado");
+	    }
+	}
+
+	/*
+	@Override
+    public Page<Alumno> obtenerAlumnosPorCategoria(Long categoriaId, Pageable pageable) {
+        return alumnoRepository.findByCategoriaId(categoriaId, pageable);
+    }
+
+	@Override
+    public Page<Alumno> obtenerAlumnosPorGrado(Long gradoId, Pageable pageable) {
+        return alumnoRepository.findByGradoId(gradoId, pageable);
+    }
+	
+	@Override
+	public Page<Alumno> obtenerAlumnosPorNombreCategoriaYGrado(String nombre, Long categoriaId, Long gradoId,
+			Pageable pageable) {
+		return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaIdAndGradoId(nombre, categoriaId, gradoId, pageable);
+	}
+
+	@Override
+	public Page<Alumno> obtenerAlumnosPorNombreYCategoria(String nombre, Long categoriaId, Pageable pageable) {
+		return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaId(nombre, categoriaId, pageable);
+	}
+
+	@Override
+	public Page<Alumno> obtenerAlumnosPorNombreYGrado(String nombre, Long gradoId, Pageable pageable) {
+		return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoId(nombre, gradoId, pageable);
+	}
+
+	@Override
+	public Page<Alumno> obtenerAlumnosPorCategoriaYGrado(Long categoriaId, Long gradoId, Pageable pageable) {
+		return alumnoRepository.findByCategoriaIdAndGradoId(categoriaId, gradoId, pageable);
+	}*/
 
 	@Override
 	public Alumno crearAlumno(Alumno alumno) {

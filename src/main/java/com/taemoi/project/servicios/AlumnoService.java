@@ -1,6 +1,7 @@
 package com.taemoi.project.servicios;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,11 +17,17 @@ import jakarta.validation.Valid;
 
 public interface AlumnoService {
 	Page<Alumno> obtenerTodosLosAlumnos(Pageable pageable);
+	
+    List<Alumno> obtenerTodosLosAlumnos();
 
 	Optional<Alumno> obtenerAlumnoPorId(Long id);
-
+	
 	Optional<AlumnoDTO> obtenerAlumnoDTOPorId(Long id);
-
+	
+	Page<Alumno> obtenerAlumnosFiltrados(String nombre, Long gradoId, Long categoriaId, Pageable pageable);
+	
+	List<Alumno> obtenerAlumnosFiltrados(String nombre, Long gradoId, Long categoriaId);
+	
 	Alumno crearAlumno(@Valid Alumno alumno);
 
 	Alumno actualizarAlumno(@Valid Long id, AlumnoDTO alumnoActualizado, Date nuevaFechaNacimiento);

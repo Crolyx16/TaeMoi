@@ -59,5 +59,4 @@ public class Categoria {
 	public void setAlumnos(List<Alumno> alumnos) {
 		this.alumnos = alumnos;
 	}
-
 }

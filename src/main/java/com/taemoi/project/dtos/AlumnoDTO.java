@@ -165,10 +165,15 @@ public class AlumnoDTO {
 		String gradoTipo = alumno.getGrado() != null && alumno.getGrado().getTipoGrado() != null
 				? alumno.getGrado().getTipoGrado().name()
 				: null;
+		
+	    Integer telefono = null;
+	    if (alumno.getTelefono() != null) {
+	        telefono = Integer.valueOf(alumno.getTelefono());
+	    }
 
 		return new AlumnoDTO(alumno.getNombre(), alumno.getApellidos(), alumno.getFechaNacimiento(),
 				alumno.getNumeroExpediente(), alumno.getNif(), alumno.getDireccion(), alumno.getEmail(),
-				Integer.valueOf(alumno.getTelefono()), alumno.getCuantiaTarifa(), alumno.getTipoTarifa(),
+				telefono, alumno.getCuantiaTarifa(), alumno.getTipoTarifa(),
 				alumno.getFechaAlta(), alumno.getFechaBaja(), categoriaNombre, gradoTipo);
 	}
 }

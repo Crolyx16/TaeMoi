@@ -19,8 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-	@Autowired
-	private AuthenticationService authenticationService;
+	@Autowired AuthenticationService authenticationService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody RegistroRequest request) {
