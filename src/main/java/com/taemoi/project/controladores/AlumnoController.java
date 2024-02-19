@@ -45,9 +45,11 @@ import jakarta.validation.Valid;
 public class AlumnoController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-	@Autowired AlumnoService alumnoService;
+	@Autowired
+	AlumnoService alumnoService;
 
-	@Autowired AlumnoRepository alumnoRepository;
+	@Autowired
+	AlumnoRepository alumnoRepository;
 
 	@Autowired
 	private GradoRepository gradoRepository;
@@ -55,24 +57,40 @@ public class AlumnoController {
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> obtenerAlumnosDTO(@RequestParam(required = false) Integer page,
-	                                           @RequestParam(required = false) Integer size) {
-	    if (page != null && size != null) {
-	        logger.info("## AlumnoController :: mostrarAlumnos paginados");
-	        Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
-	        Page<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos(pageable);
-	        if (alumnos.isEmpty()) {
-	            throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
-	        }
-	        return ResponseEntity.ok(alumnos.map(AlumnoDTO::deAlumno));
-	    } else {
-	        logger.info("## AlumnoController :: mostrarTodosLosAlumnos");
-	        List<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos();
-	        if (alumnos.isEmpty()) {
-	            logger.warn("No hay usuarios registrados en el sistema.");
-	            return ResponseEntity.ok(Page.empty());
-	        }
-	        return ResponseEntity.ok(new PageImpl<>(alumnos).map(AlumnoDTO::deAlumno));
-	    }
+			@RequestParam(required = false) Integer size, @RequestParam(required = false) String nombre) {
+	    logger.info("## AlumnoController :: obtenerAlumnosDTO :: Iniciando método");
+	    logger.info("## AlumnoController :: obtenerAlumnosDTO :: Parámetros recibidos - page: {}, size: {}, nombre: {}", page, size, nombre);
+		if (page != null && size != null) {
+			logger.info("## AlumnoController :: mostrarAlumnos paginados");
+			Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
+
+			Page<Alumno> alumnos;
+
+			if (nombre != null) {
+				logger.info("## AlumnoController :: obtenerAlumnosDTO :: Filtrando por nombre: {}", nombre);
+				alumnos = alumnoService.obtenerAlumnosPorNombre(nombre, pageable);
+			} else {
+				logger.info("## AlumnoController :: obtenerAlumnosDTO :: Obteniendo todos los alumnos");
+				alumnos = alumnoService.obtenerTodosLosAlumnos(pageable);
+			}
+
+			if (alumnos.isEmpty()) {
+				logger.warn("## AlumnoController :: obtenerAlumnosDTO :: No hay usuarios registrados en el sistema.");
+				throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
+			}
+
+			logger.info("## AlumnoController :: obtenerAlumnosDTO :: Se encontraron alumnos, retornando respuesta.");
+			return ResponseEntity.ok(alumnos.map(AlumnoDTO::deAlumno));
+		} else {
+			logger.info("## AlumnoController :: mostrarTodosLosAlumnos");
+			List<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos();
+			if (alumnos.isEmpty()) {
+				logger.warn("No hay usuarios registrados en el sistema.");
+				return ResponseEntity.ok(Page.empty());
+			}
+			logger.info("## AlumnoController :: obtenerAlumnosDTO :: Se encontraron alumnos, retornando respuesta.");
+			return ResponseEntity.ok(new PageImpl<>(alumnos).map(AlumnoDTO::deAlumno));
+		}
 	}
 
 	@GetMapping("/{id}")
@@ -161,12 +179,12 @@ public class AlumnoController {
 		boolean eliminado = alumnoService.eliminarAlumno(id);
 		return eliminado ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
-    public void setAlumnoService(AlumnoService alumnoService) {
-        this.alumnoService = alumnoService;
-    }
-    
-    public void setAlumnoRepository(AlumnoRepository alumnoRepository) {
-        this.alumnoRepository = alumnoRepository;
-    }
+
+	public void setAlumnoService(AlumnoService alumnoService) {
+		this.alumnoService = alumnoService;
+	}
+
+	public void setAlumnoRepository(AlumnoRepository alumnoRepository) {
+		this.alumnoRepository = alumnoRepository;
+	}
 }

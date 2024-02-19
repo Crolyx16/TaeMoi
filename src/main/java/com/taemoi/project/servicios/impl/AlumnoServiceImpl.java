@@ -53,12 +53,49 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public Optional<Alumno> obtenerAlumnoPorId(Long id) {
 		return alumnoRepository.findById(id);
 	}
-
+	
 	@Override
 	public Optional<AlumnoDTO> obtenerAlumnoDTOPorId(Long id) {
 		Optional<Alumno> optionalAlumno = obtenerAlumnoPorId(id);
 		return optionalAlumno.map(this::mapeoParaAlumnoDTO);
 	}
+	
+	@Override
+    public Page<Alumno> obtenerAlumnosPorNombre(String nombre, Pageable pageable) {
+        return alumnoRepository.findByNombreContainingIgnoreCase(nombre, pageable);
+    }
+
+	/*
+	@Override
+    public Page<Alumno> obtenerAlumnosPorCategoria(Long categoriaId, Pageable pageable) {
+        return alumnoRepository.findByCategoriaId(categoriaId, pageable);
+    }
+
+	@Override
+    public Page<Alumno> obtenerAlumnosPorGrado(Long gradoId, Pageable pageable) {
+        return alumnoRepository.findByGradoId(gradoId, pageable);
+    }
+	
+	@Override
+	public Page<Alumno> obtenerAlumnosPorNombreCategoriaYGrado(String nombre, Long categoriaId, Long gradoId,
+			Pageable pageable) {
+		return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaIdAndGradoId(nombre, categoriaId, gradoId, pageable);
+	}
+
+	@Override
+	public Page<Alumno> obtenerAlumnosPorNombreYCategoria(String nombre, Long categoriaId, Pageable pageable) {
+		return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaId(nombre, categoriaId, pageable);
+	}
+
+	@Override
+	public Page<Alumno> obtenerAlumnosPorNombreYGrado(String nombre, Long gradoId, Pageable pageable) {
+		return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoId(nombre, gradoId, pageable);
+	}
+
+	@Override
+	public Page<Alumno> obtenerAlumnosPorCategoriaYGrado(Long categoriaId, Long gradoId, Pageable pageable) {
+		return alumnoRepository.findByCategoriaIdAndGradoId(categoriaId, gradoId, pageable);
+	}*/
 
 	@Override
 	public Alumno crearAlumno(Alumno alumno) {

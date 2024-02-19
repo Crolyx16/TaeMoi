@@ -146,7 +146,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTg5OTEsImV4cCI6MTcwODM5NDk5MX0.mlulP_mkzQcYvoI3AOG-6qy14eJPWSO8AyWHA8yy4PA",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNjY4OTUsImV4cCI6MTcwODQwMjg5NX0.yZsFSzLiZelUkDFE7kGCj7kxk4ARhxVQHKR5_y8CIPQ",
 							"type": "string"
 						}
 					]
@@ -203,6 +203,50 @@
 					"path": [
 						"api",
 						"alumnos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrar alumnos por nombre",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNjY4OTUsImV4cCI6MTcwODQwMjg5NX0.yZsFSzLiZelUkDFE7kGCj7kxk4ARhxVQHKR5_y8CIPQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos?{{numPagina}}&{{tamPagina}}&nombre=Juan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					],
+					"query": [
+						{
+							"key": "{{numPagina}}",
+							"value": null
+						},
+						{
+							"key": "{{tamPagina}}",
+							"value": null
+						},
+						{
+							"key": "nombre",
+							"value": "Juan"
+						}
 					]
 				}
 			},
@@ -469,6 +513,21 @@
 		{
 			"key": "tamPagina",
 			"value": "size=10",
+			"type": "string"
+		},
+		{
+			"key": "gradoId",
+			"value": "gradoId=2",
+			"type": "string"
+		},
+		{
+			"key": "categoriaId",
+			"value": "categoriaId=1",
+			"type": "string"
+		},
+		{
+			"key": "nombre",
+			"value": "nombre=Clemente",
 			"type": "string"
 		}
 	]

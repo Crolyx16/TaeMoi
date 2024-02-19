@@ -21,8 +21,24 @@ public interface AlumnoService {
     List<Alumno> obtenerTodosLosAlumnos();
 
 	Optional<Alumno> obtenerAlumnoPorId(Long id);
-
+	
 	Optional<AlumnoDTO> obtenerAlumnoDTOPorId(Long id);
+	
+	Page<Alumno> obtenerAlumnosPorNombre(String nombre, Pageable pageable);
+	
+	/*
+	Page<Alumno> obtenerAlumnosPorCategoria(Long categoriaId, Pageable pageable);
+	
+	Page<Alumno> obtenerAlumnosPorGrado(Long gradoId, Pageable pageable);
+	
+	Page<Alumno> obtenerAlumnosPorNombreCategoriaYGrado(String nombre, Long categoriaId, Long gradoId, Pageable pageable);
+	
+	Page<Alumno> obtenerAlumnosPorNombreYCategoria(String nombre, Long categoriaId, Pageable pageable);
+	
+	Page<Alumno> obtenerAlumnosPorNombreYGrado(String nombre, Long gradoId, Pageable pageable);
+	
+	Page<Alumno> obtenerAlumnosPorCategoriaYGrado(Long categoriaId, Long gradoId, Pageable pageable);
+	*/
 
 	Alumno crearAlumno(@Valid Alumno alumno);
 

@@ -51,11 +51,12 @@ class AlumnoControllerTest {
 
 	    when(alumnoService.obtenerTodosLosAlumnos(any(Pageable.class))).thenReturn(alumnosPage);
 
-	    ResponseEntity<?> responseEntity = alumnoController.obtenerAlumnosDTO(null, null);
+	    ResponseEntity<?> responseEntity = alumnoController.obtenerAlumnosDTO(null, null, null);
 
 	    assertTrue(responseEntity.getBody() instanceof Page);
 	    assertTrue(((Page<?>) responseEntity.getBody()).isEmpty());
 	}
+	
 	@Test
 	void obtenerAlumnoPorIdDTO_Test() {
 		Long id = 1L;
