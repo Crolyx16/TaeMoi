@@ -43,6 +43,11 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public Page<Alumno> obtenerTodosLosAlumnos(Pageable pageable) {
 		return alumnoRepository.findAll(pageable);
 	}
+	
+	@Override
+	public List<Alumno> obtenerTodosLosAlumnos() {
+		return alumnoRepository.findAll();
+	}
 
 	@Override
 	public Optional<Alumno> obtenerAlumnoPorId(Long id) {

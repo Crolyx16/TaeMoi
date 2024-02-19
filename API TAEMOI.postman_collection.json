@@ -7,14 +7,14 @@
 	},
 	"item": [
 		{
-			"name": "Listar Alumnos",
+			"name": "Listar Alumnos Paginado",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA4MDcxOTM4LCJleHAiOjE3MDgxMDc5Mzh9.46QzuXOwSsgpIVBo8M2M6XihAbJkzx3nAIMYGhrSN4U",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTg5OTEsImV4cCI6MTcwODM5NDk5MX0.mlulP_mkzQcYvoI3AOG-6qy14eJPWSO8AyWHA8yy4PA",
 							"type": "string"
 						}
 					]
@@ -47,6 +47,36 @@
 			"response": []
 		},
 		{
+			"name": "Listar Alumnos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTg5OTEsImV4cCI6MTcwODM5NDk5MX0.mlulP_mkzQcYvoI3AOG-6qy14eJPWSO8AyWHA8yy4PA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Listar Alumno Por Id",
 			"request": {
 				"auth": {
@@ -54,7 +84,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5NDg5NTUsImV4cCI6MTcwNzk4NDk1NX0.-E8iYASjPlC4qOUv0r0HR9p-UFJP2QrPkuB4S4kiA4Y",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTcxMzMsImV4cCI6MTcwODM5MzEzM30.kfofRmsLzr_P0ynPrTqx9iVat_YOvjOtmRWx9krA9xQ",
 							"type": "string"
 						}
 					]
@@ -85,7 +115,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgwNzEwNzcsImV4cCI6MTcwODEwNzA3N30.QgT_eEfEXrdvJmErnYlXHS8MWUmqgAjv078MVC4Mrvo",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTg3MTIsImV4cCI6MTcwODM5NDcxMn0.X-nqAgfA-SXTDhMf4icF0rznP6GjKeHqe3TTxBmZxIg",
 							"type": "string"
 						}
 					]
@@ -109,14 +139,14 @@
 			"response": []
 		},
 		{
-			"name": "Listar Alumnos DTO",
+			"name": "Listar Alumnos DTO Paginado",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA4MDcxOTM4LCJleHAiOjE3MDgxMDc5Mzh9.46QzuXOwSsgpIVBo8M2M6XihAbJkzx3nAIMYGhrSN4U",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTg5OTEsImV4cCI6MTcwODM5NDk5MX0.mlulP_mkzQcYvoI3AOG-6qy14eJPWSO8AyWHA8yy4PA",
 							"type": "string"
 						}
 					]
@@ -149,6 +179,36 @@
 			"response": []
 		},
 		{
+			"name": "Listar Alumnos DTO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNjA0NTYsImV4cCI6MTcwODM5NjQ1Nn0.IOY618piI91kAmdKYHj4Y8JjkbvMnjG9sdF1XVasso8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Listar Alumno Por Id DTO",
 			"request": {
 				"auth": {
@@ -156,7 +216,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lza2ltZG90YWVrd29uZG9AZ21haWwuY29tIiwiaWF0IjoxNzA3NzI5ODI3LCJleHAiOjE3MDc3NjU4Mjd9.7tpbjWDGdGdFXLLDZNkaGSx9RHvq-KHU_Uw1sPybW7Y",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTcxMzMsImV4cCI6MTcwODM5MzEzM30.kfofRmsLzr_P0ynPrTqx9iVat_YOvjOtmRWx9krA9xQ",
 							"type": "string"
 						}
 					]
@@ -187,7 +247,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgwMzU5MDMsImV4cCI6MTcwODA3MTkwM30.OuV8uGOH2krlZC44Dv8kPf2etD9T3tDGvG4UkABkTNk",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTcxMzMsImV4cCI6MTcwODM5MzEzM30.kfofRmsLzr_P0ynPrTqx9iVat_YOvjOtmRWx9krA9xQ",
 							"type": "string"
 						}
 					]
@@ -226,7 +286,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDc5MzU5NTcsImV4cCI6MTcwNzk3MTk1N30.uPgPUAwZGAOI5tzGjEbjwSxJy_EoXxY1XGsr0Ey9SA4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTcxMzMsImV4cCI6MTcwODM5MzEzM30.kfofRmsLzr_P0ynPrTqx9iVat_YOvjOtmRWx9krA9xQ",
 							"type": "string"
 						}
 					]
@@ -243,7 +303,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/alumnos/41",
+					"raw": "http://localhost:8080/api/alumnos/21",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -252,7 +312,7 @@
 					"path": [
 						"api",
 						"alumnos",
-						"41"
+						"21"
 					]
 				}
 			},
@@ -266,7 +326,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFlbEBlbWFpbC5lcyIsImlhdCI6MTcwNzcyNjc1MywiZXhwIjoxNzA3NzYyNzUzfQ.S2SyWeKO-hE8uXnzCSezweCDfYH-eLGbKDXILbyk_Uk",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm9seXgxNkBnbWFpbC5jb20iLCJpYXQiOjE3MDgzNTcxMzMsImV4cCI6MTcwODM5MzEzM30.kfofRmsLzr_P0ynPrTqx9iVat_YOvjOtmRWx9krA9xQ",
 							"type": "string"
 						}
 					]

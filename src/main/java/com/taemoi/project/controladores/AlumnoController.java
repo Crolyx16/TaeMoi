@@ -1,12 +1,14 @@
 package com.taemoi.project.controladores;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taemoi.project.dtos.AlumnoDTO;
@@ -51,14 +54,25 @@ public class AlumnoController {
 
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
-	public Page<AlumnoDTO> obtenerAlumnosDTO(Pageable pageable) {
-		logger.info("## AlumnoController :: mostrarAlumnos");
-		pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("nombre").ascending());
-		Page<Alumno> alumnos = alumnoRepository.findAll(pageable);
-		if (alumnos.isEmpty()) {
-			throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
-		}
-		return alumnos.map(AlumnoDTO::deAlumno);
+	public ResponseEntity<?> obtenerAlumnosDTO(@RequestParam(required = false) Integer page,
+	                                           @RequestParam(required = false) Integer size) {
+	    if (page != null && size != null) {
+	        logger.info("## AlumnoController :: mostrarAlumnos paginados");
+	        Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
+	        Page<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos(pageable);
+	        if (alumnos.isEmpty()) {
+	            throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
+	        }
+	        return ResponseEntity.ok(alumnos.map(AlumnoDTO::deAlumno));
+	    } else {
+	        logger.info("## AlumnoController :: mostrarTodosLosAlumnos");
+	        List<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos();
+	        if (alumnos.isEmpty()) {
+	            logger.warn("No hay usuarios registrados en el sistema.");
+	            return ResponseEntity.ok(Page.empty());
+	        }
+	        return ResponseEntity.ok(new PageImpl<>(alumnos).map(AlumnoDTO::deAlumno));
+	    }
 	}
 
 	@GetMapping("/{id}")

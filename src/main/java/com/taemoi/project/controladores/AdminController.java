@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taemoi.project.dtos.UsuarioDTO;
@@ -32,22 +33,32 @@ public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
 	private AlumnoService alumnoService;
 
-	@Autowired
-	private UsuarioService usuarioService;
-
 	@GetMapping
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public ResponseEntity<Page<Alumno>> obtenerAlumnos(Pageable pageable) {
-		logger.info("## AdminController :: mostrarAlumnos");
-		pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("nombre").ascending());
-		Page<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos(pageable);
-		if (alumnos.isEmpty()) {
-			throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
-		}
-		return ResponseEntity.ok(alumnos);
-	}
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> obtenerAlumnos(@RequestParam(required = false) Integer page,
+                                            @RequestParam(required = false) Integer size) {
+        if (page != null && size != null) {
+            logger.info("## AdminController :: mostrarAlumnos paginados");
+            Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
+            Page<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos(pageable);
+            if (alumnos.isEmpty()) {
+                throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
+            }
+            return ResponseEntity.ok(alumnos);
+        } else {
+            logger.info("## AdminController :: mostrarTodosLosAlumnos");
+            List<Alumno> alumnos = alumnoService.obtenerTodosLosAlumnos();
+            if (alumnos.isEmpty()) {
+                throw new ListaAlumnosVaciaException("No hay usuarios registrados en el sistema.");
+            }
+            return ResponseEntity.ok(alumnos);
+        }
+    }
 
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -60,7 +71,7 @@ public class AdminController {
 
 	@GetMapping("/users")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public ResponseEntity<List<UsuarioDTO>> showUsers() {
+	public ResponseEntity<List<UsuarioDTO>> mostrarUsuarios() {
 		logger.info("## AuthorizationAdminController :: showUsers");
 		List<UsuarioDTO> usuarios = usuarioService.obtenerTodos();
 		if (usuarios.isEmpty()) {
