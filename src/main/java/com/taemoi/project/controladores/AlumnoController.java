@@ -198,12 +198,4 @@ public class AlumnoController {
 		boolean eliminado = alumnoService.eliminarAlumno(id);
 		return eliminado ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-
-	public void setAlumnoService(AlumnoService alumnoService) {
-		this.alumnoService = alumnoService;
-	}
-
-	public void setAlumnoRepository(AlumnoRepository alumnoRepository) {
-		this.alumnoRepository = alumnoRepository;
-	}
 }
