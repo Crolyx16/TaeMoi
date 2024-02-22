@@ -21,10 +21,17 @@ import com.taemoi.project.servicios.JwtService;
 
 import lombok.Builder;
 
+/**
+ * Implementación del servicio de autenticación que proporciona funcionalidades para
+ * registro (signup) e inicio de sesión (signin) de usuarios.
+ */
 @Builder
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+	/**
+     * Inyección del repositorio de usuario.
+     */
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -32,6 +39,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
 
+    /**
+     * Constructor de la clase AuthenticationServiceImpl.
+     *
+     * @param usuarioRepository     Repositorio de usuarios para acceder a los datos de los usuarios.
+     * @param passwordEncoder       Codificador de contraseñas para codificar las contraseñas de los usuarios.
+     * @param jwtService            Servicio JWT para generar tokens de autenticación.
+     * @param authenticationManager Administrador de autenticación para autenticar a los usuarios.
+     */
 	public AuthenticationServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
 			AuthenticationManager authenticationManager) {
 		this.usuarioRepository = usuarioRepository;
@@ -40,6 +55,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.authenticationManager = authenticationManager;
 	}
 
+    /**
+     * Registra a un nuevo usuario en el sistema.
+     *
+     * @param request Objeto RegistroRequest con los datos del usuario a registrar.
+     * @return Objeto JwtAuthenticationResponse con el token de autenticación generado.
+     * @throws IllegalArgumentException Si el email proporcionado ya está en uso.
+     */
 	@Override
 	public JwtAuthenticationResponse signup(RegistroRequest request) {
 		if (usuarioRepository.existsByEmail(request.getEmail())) {
@@ -57,6 +79,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return new JwtAuthenticationResponse(jwt);
 	}
 
+    /**
+     * Inicia sesión para un usuario existente.
+     *
+     * @param request Objeto LoginRequest con las credenciales del usuario.
+     * @return Objeto JwtAuthenticationResponse con el token de autenticación generado.
+     * @throws IllegalArgumentException Si el email o la contraseña proporcionados son inválidos.
+     */
 	@Override
 	public JwtAuthenticationResponse signin(LoginRequest request) {
 		Authentication authentication = authenticationManager

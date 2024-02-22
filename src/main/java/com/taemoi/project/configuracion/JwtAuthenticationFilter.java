@@ -21,16 +21,34 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Filtro para autenticación basada en tokens JWT.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	/**
+     * Inyección del servicio de JWT.
+     */
 	@Autowired
 	private JwtService jwtService;
 
+	/**
+     * Inyección del servicio de usuario.
+     */
 	@Autowired
 	private UsuarioService usuarioService;
 
+    /**
+     * Método que realiza la lógica de filtrado para la autenticación basada en tokens JWT.
+     *
+     * @param request     El objeto HttpServletRequest.
+     * @param response    El objeto HttpServletResponse.
+     * @param filterChain El objeto FilterChain.
+     * @throws ServletException Si ocurre un error durante el filtrado.
+     * @throws IOException      Si ocurre un error de I/O durante el filtrado.
+     */
 	@Override
 	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
 			@NonNull FilterChain filterChain) throws ServletException, IOException {

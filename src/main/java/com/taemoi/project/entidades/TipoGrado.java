@@ -15,6 +15,13 @@ public enum TipoGrado {
 		return nombre;
 	}
 
+	/**
+	 * Convierte un nombre de tipo de grado en el correspondiente valor de la enumeración TipoGrado.
+	 *
+	 * @param nombre El nombre del tipo de grado a convertir.
+	 * @return El valor de TipoGrado correspondiente al nombre proporcionado.
+	 * @throws IllegalArgumentException si el nombre no coincide con ningún tipo de grado válido.
+	 */
 	public static TipoGrado fromNombre(String nombre) {
 		for (TipoGrado tipo : TipoGrado.values()) {
 			if (tipo.nombre.equalsIgnoreCase(nombre)) {
