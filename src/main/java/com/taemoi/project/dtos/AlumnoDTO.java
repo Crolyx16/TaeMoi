@@ -156,6 +156,12 @@ public class AlumnoDTO {
 		this.cuantiaTarifa = cuantiaTarifa;
 	}
 
+	/**
+	 * Convierte un objeto Alumno en un objeto AlumnoDTO.
+	 *
+	 * @param alumno El objeto Alumno a convertir.
+	 * @return El objeto AlumnoDTO resultante, o null si el parámetro alumno es null.
+	 */
 	public static AlumnoDTO deAlumno(Alumno alumno) {
 		if (alumno == null) {
 			return null;

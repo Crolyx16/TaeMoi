@@ -16,7 +16,7 @@ La aplicación TaeMoi es una plataforma diseñada para administrar y gestionar i
 - **Consulta y Edición de Alumnos**: Facilita la búsqueda y visualización de alumnos existentes, así como la edición de sus detalles.
 - **Eliminación de Alumnos**: Permite eliminar registros de alumnos cuando sea necesario.
 - **Seguridad Basada en Roles**: Ofrece diferentes niveles de acceso y permisos según el rol del usuario (administrador o usuario estándar).
-- **Paginación y Ordenación**: Permite la paginación y ordenación de la lista de alumnos para una navegación más fácil y una mejor organización.
+- **Paginación, Ordenación y Filtrado**: Permite la paginación, ordenación y filtrado de la lista de alumnos para una navegación más fácil y una mejor organización.
 
 ---
 
@@ -63,6 +63,7 @@ mvn spring-boot:run
 ### Acceder a la Aplicación:
 Usar algún gestor de peticiones REST como postman (Colección requerida adjunta al repositorio).
 - Enlace a la página de descargas de Postman: https://www.postman.com/downloads/
+- Enlace a la documentación que he creado de Postman para esta app: https://documenter.getpostman.com/view/32188944/2sA2rAxgd9
 
 ---
 

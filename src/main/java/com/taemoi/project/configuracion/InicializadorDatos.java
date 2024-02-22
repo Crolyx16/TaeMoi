@@ -27,24 +27,48 @@ import com.taemoi.project.repositorios.CategoriaRepository;
 import com.taemoi.project.repositorios.GradoRepository;
 import com.taemoi.project.repositorios.UsuarioRepository;
 
+/**
+ * Componente encargado de inicializar datos en la base de datos al arrancar la aplicación.
+ */
 @Component
 public class InicializadorDatos implements CommandLineRunner {
 
+	/**
+     * Inyección del repositorio de alumno.
+     */
 	@Autowired
 	private AlumnoRepository alumnoRepository;
 
+	/**
+     * Inyección del repositorio de usuario.
+     */
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	/**
+     * Inyección del repositorio de categoría.
+     */
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
+	/**
+     * Inyección del repositorio de grado.
+     */
 	@Autowired
 	private GradoRepository gradoRepository;
 
+	/**
+     * Inyección del codificador de contraseñas.
+     */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+    /**
+     * Método que se ejecuta al arrancar la aplicación para inicializar datos en la base de datos.
+     *
+     * @param args Argumentos de la línea de comandos.
+     * @throws Exception Si ocurre un error durante la inicialización de datos.
+     */
 	@Override
 	public void run(String... args) throws Exception {
 		boolean borrarAlumnos = true;
@@ -97,6 +121,9 @@ public class InicializadorDatos implements CommandLineRunner {
 		}
 	}
 
+    /**
+     * Genera los grados si no existen en la base de datos.
+     */
 	private void generarGrados() {
 		for (TipoGrado tipoGrado : TipoGrado.values()) {
 			Grado gradoExistente = gradoRepository.findByTipoGrado(tipoGrado);
@@ -108,6 +135,12 @@ public class InicializadorDatos implements CommandLineRunner {
 		}
 	}
 
+    /**
+     * Genera un alumno aleatorio utilizando la biblioteca Faker.
+     *
+     * @param faker Objeto Faker para generar datos aleatorios.
+     * @return El alumno generado.
+     */
 	private Alumno generarAlumno(Faker faker) {
 		Alumno alumno = new Alumno();
 		alumno.setNombre(faker.name().firstName());
@@ -138,6 +171,12 @@ public class InicializadorDatos implements CommandLineRunner {
 		return alumno;
 	}
 
+    /**
+     * Asigna la cuantía de la tarifa según el tipo de tarifa.
+     *
+     * @param tipoTarifa Tipo de tarifa.
+     * @return La cuantía de la tarifa asignada.
+     */
 	private double asignarCuantiaTarifa(TipoTarifa tipoTarifa) {
 		switch (tipoTarifa) {
 		case ADULTO:
@@ -159,6 +198,12 @@ public class InicializadorDatos implements CommandLineRunner {
 		}
 	}
 
+    /**
+     * Asigna la categoría según la edad del alumno.
+     *
+     * @param edad Edad del alumno.
+     * @return La categoría asignada.
+     */
 	private Categoria asignarCategoriaSegunEdad(int edad) {
 		TipoCategoria tipoCategoria;
 		if (edad >= 3 && edad <= 7) {
@@ -180,6 +225,12 @@ public class InicializadorDatos implements CommandLineRunner {
 		return categoriaRepository.findByNombre(tipoCategoria.getNombre());
 	}
 
+    /**
+     * Asigna el grado según la edad del alumno.
+     *
+     * @param edad Edad del alumno.
+     * @return El grado asignado.
+     */
 	private Grado asignarGradoSegunEdad(int edad) {
 		List<TipoGrado> tiposGradoDisponibles;
 		if (edad > 15) {

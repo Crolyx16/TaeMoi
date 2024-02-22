@@ -40,20 +40,45 @@ import com.taemoi.project.servicios.AlumnoService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST que gestiona las operaciones relacionadas con los alumnos en el sistema.
+ * Proporciona endpoints para recuperar, crear, actualizar y eliminar información de los alumnos.
+ * Se requiere que el usuario tenga el rol ROLE_USER o ROLE_ADMIN para acceder a estos endpoints.
+ */
 @RestController
 @RequestMapping("/api/alumnos")
 public class AlumnoController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
+	/**
+     * Inyección del servicio de alumno.
+     */
 	@Autowired
 	AlumnoService alumnoService;
 
+	/**
+     * Inyección del repositorio de alumno.
+     */
 	@Autowired
 	AlumnoRepository alumnoRepository;
 
+	/**
+     * Inyección del repositorio de grado.
+     */
 	@Autowired
 	private GradoRepository gradoRepository;
 
+    /**
+     * Obtiene una lista de alumnos paginada o filtrada según los parámetros proporcionados.
+     *
+     * @param page        Número de página para paginación (opcional).
+     * @param size        Tamaño de la página para paginación (opcional).
+     * @param nombre      Nombre del alumno para filtrar (opcional).
+     * @param gradoId     ID del grado del alumno para filtrar (opcional).
+     * @param categoriaId ID de la categoría del alumno para filtrar (opcional).
+     * @return ResponseEntity que contiene una lista paginada o filtrada de alumnos.
+     * @throws ListaAlumnosVaciaException si no se encuentran alumnos en el sistema.
+     */
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> obtenerAlumnosDTO(@RequestParam(required = false) Integer page,
@@ -112,6 +137,13 @@ public class AlumnoController {
 		}
 	}
 
+    /**
+     * Obtiene un alumno por su ID.
+     *
+     * @param id ID del alumno.
+     * @return ResponseEntity que contiene el alumno encontrado.
+     * @throws AlumnoNoEncontradoException si no se encuentra ningún alumno con el ID especificado.
+     */
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AlumnoDTO> obtenerAlumnoPorIdDTO(@PathVariable Long id) {
@@ -121,6 +153,15 @@ public class AlumnoController {
 				.orElseThrow(() -> new AlumnoNoEncontradoException("Alumno no encontrado con ID: " + id));
 	}
 
+    /**
+     * Crea un nuevo alumno.
+     *
+     * @param nuevoAlumnoDTO Datos del nuevo alumno a crear.
+     * @return ResponseEntity que contiene el alumno creado.
+     * @throws FechaNacimientoInvalidaException si la fecha de nacimiento proporcionada es inválida.
+     * @throws DatosAlumnoInvalidosException    si los datos del alumno son inválidos.
+     * @throws AlumnoDuplicadoException         si ya existe un alumno con el mismo NIF.
+     */
 	@PostMapping
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AlumnoDTO> crearAlumno(@Valid @RequestBody AlumnoDTO nuevoAlumnoDTO) {
@@ -171,6 +212,15 @@ public class AlumnoController {
 		return new ResponseEntity<>(creadoDTO, HttpStatus.CREATED);
 	}
 
+    /**
+     * Actualiza la información de un alumno existente.
+     *
+     * @param id               ID del alumno a actualizar.
+     * @param alumnoActualizado Datos actualizados del alumno.
+     * @return ResponseEntity que contiene el alumno actualizado.
+     * @throws FechaNacimientoInvalidaException si la fecha de nacimiento proporcionada es inválida.
+     * @throws DatosAlumnoInvalidosException    si los datos del alumno actualizado son inválidos.
+     */
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AlumnoDTO> actualizarAlumno(@PathVariable Long id,
@@ -191,19 +241,17 @@ public class AlumnoController {
 		return new ResponseEntity<>(alumnoActualizadoDTO, HttpStatus.OK);
 	}
 
+    /**
+     * Elimina un alumno existente.
+     *
+     * @param id ID del alumno a eliminar.
+     * @return ResponseEntity con el estado de la operación.
+     */
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Void> eliminarAlumno(@Valid @PathVariable Long id) {
 		logger.info("## AlumnoController :: eliminarAlumno");
 		boolean eliminado = alumnoService.eliminarAlumno(id);
 		return eliminado ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
-	public void setAlumnoService(AlumnoService alumnoService) {
-		this.alumnoService = alumnoService;
-	}
-
-	public void setAlumnoRepository(AlumnoRepository alumnoRepository) {
-		this.alumnoRepository = alumnoRepository;
 	}
 }

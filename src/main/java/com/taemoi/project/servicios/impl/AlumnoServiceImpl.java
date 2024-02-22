@@ -27,39 +27,84 @@ import com.taemoi.project.repositorios.CategoriaRepository;
 import com.taemoi.project.repositorios.GradoRepository;
 import com.taemoi.project.servicios.AlumnoService;
 
+/**
+ * Implementación del servicio para operaciones relacionadas con los alumnos.
+ */
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
 
+	/**
+     * Inyección del repositorio de alumno.
+     */
 	@Autowired
 	private AlumnoRepository alumnoRepository;
 
+	/**
+     * Inyección del repositorio de categoría.
+     */
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
+	/**
+     * Inyección del repositorio de grado.
+     */
 	@Autowired
 	private GradoRepository gradoRepository;
 
+    /**
+     * Obtiene una página de todos los alumnos paginados.
+     *
+     * @param pageable Objeto Pageable para la paginación de resultados.
+     * @return Una página de objetos Alumno.
+     */
 	@Override
 	public Page<Alumno> obtenerTodosLosAlumnos(Pageable pageable) {
 		return alumnoRepository.findAll(pageable);
 	}
 	
+    /**
+     * Obtiene una lista de todos los alumnos.
+     *
+     * @return Una lista de objetos Alumno.
+     */
 	@Override
 	public List<Alumno> obtenerTodosLosAlumnos() {
 		return alumnoRepository.findAll();
 	}
 
+    /**
+     * Obtiene un alumno por su ID.
+     *
+     * @param id El ID del alumno a buscar.
+     * @return Un objeto Optional que contiene el alumno si se encuentra, de lo contrario, un Optional vacío.
+     */
 	@Override
 	public Optional<Alumno> obtenerAlumnoPorId(Long id) {
 		return alumnoRepository.findById(id);
 	}
 	
+    /**
+     * Obtiene un alumno DTO por su ID.
+     *
+     * @param id El ID del alumno a buscar.
+     * @return Un objeto Optional que contiene el alumno DTO si se encuentra, de lo contrario, un Optional vacío.
+     */
 	@Override
 	public Optional<AlumnoDTO> obtenerAlumnoDTOPorId(Long id) {
 		Optional<Alumno> optionalAlumno = obtenerAlumnoPorId(id);
 		return optionalAlumno.map(this::mapeoParaAlumnoDTO);
 	}
 	
+    /**
+     * Obtiene una página de alumnos filtrados según los parámetros especificados.
+     *
+     * @param nombre      El nombre a filtrar.
+     * @param gradoId     El ID del grado a filtrar.
+     * @param categoriaId El ID de la categoría a filtrar.
+     * @param pageable    Objeto Pageable para la paginación de resultados.
+     * @return Una página de objetos Alumno que cumplen con los criterios de búsqueda.
+     * @throws IllegalArgumentException Si no se proporciona al menos un criterio de filtrado.
+     */
 	@Override
 	public Page<Alumno> obtenerAlumnosFiltrados(String nombre, Long gradoId, Long categoriaId, Pageable pageable) {
 	    if (nombre != null && gradoId != null && categoriaId != null) {
@@ -81,6 +126,15 @@ public class AlumnoServiceImpl implements AlumnoService {
 	    }
 	}
 	
+    /**
+     * Obtiene una lista de alumnos filtrados según los parámetros especificados.
+     *
+     * @param nombre      El nombre a filtrar.
+     * @param gradoId     El ID del grado a filtrar.
+     * @param categoriaId El ID de la categoría a filtrar.
+     * @return Una lista de objetos Alumno que cumplen con los criterios de búsqueda.
+     * @throws IllegalArgumentException Si no se proporciona al menos un criterio de filtrado.
+     */
 	@Override
 	public List<Alumno> obtenerAlumnosFiltrados(String nombre, Long gradoId, Long categoriaId) {
 	    if (nombre != null && gradoId != null && categoriaId != null) {
@@ -102,43 +156,25 @@ public class AlumnoServiceImpl implements AlumnoService {
 	    }
 	}
 
-	/*
-	@Override
-    public Page<Alumno> obtenerAlumnosPorCategoria(Long categoriaId, Pageable pageable) {
-        return alumnoRepository.findByCategoriaId(categoriaId, pageable);
-    }
-
-	@Override
-    public Page<Alumno> obtenerAlumnosPorGrado(Long gradoId, Pageable pageable) {
-        return alumnoRepository.findByGradoId(gradoId, pageable);
-    }
-	
-	@Override
-	public Page<Alumno> obtenerAlumnosPorNombreCategoriaYGrado(String nombre, Long categoriaId, Long gradoId,
-			Pageable pageable) {
-		return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaIdAndGradoId(nombre, categoriaId, gradoId, pageable);
-	}
-
-	@Override
-	public Page<Alumno> obtenerAlumnosPorNombreYCategoria(String nombre, Long categoriaId, Pageable pageable) {
-		return alumnoRepository.findByNombreContainingIgnoreCaseAndCategoriaId(nombre, categoriaId, pageable);
-	}
-
-	@Override
-	public Page<Alumno> obtenerAlumnosPorNombreYGrado(String nombre, Long gradoId, Pageable pageable) {
-		return alumnoRepository.findByNombreContainingIgnoreCaseAndGradoId(nombre, gradoId, pageable);
-	}
-
-	@Override
-	public Page<Alumno> obtenerAlumnosPorCategoriaYGrado(Long categoriaId, Long gradoId, Pageable pageable) {
-		return alumnoRepository.findByCategoriaIdAndGradoId(categoriaId, gradoId, pageable);
-	}*/
-
+    /**
+     * Crea un nuevo alumno.
+     *
+     * @param alumno El objeto Alumno a crear.
+     * @return El alumno creado.
+     */
 	@Override
 	public Alumno crearAlumno(Alumno alumno) {
 		return alumnoRepository.save(alumno);
 	}
 
+    /**
+     * Actualiza un alumno existente.
+     *
+     * @param id                  El ID del alumno a actualizar.
+     * @param alumnoActualizado   El objeto AlumnoDTO con los datos actualizados.
+     * @param nuevaFechaNacimiento La nueva fecha de nacimiento del alumno.
+     * @return El alumno actualizado.
+     */
 	@Override
 	public Alumno actualizarAlumno(Long id, AlumnoDTO alumnoActualizado, Date nuevaFechaNacimiento) {
 		Optional<Alumno> optionalAlumno = alumnoRepository.findById(id);
@@ -167,6 +203,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		}
 	}
 
+    /**
+     * Elimina un alumno por su ID.
+     *
+     * @param id El ID del alumno a eliminar.
+     * @return true si se elimina con éxito, false si el alumno no existe.
+     */
 	@Override
 	public boolean eliminarAlumno(Long id) {
 		return alumnoRepository.findById(id).map(alumno -> {
@@ -175,6 +217,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		}).orElse(false);
 	}
 
+    /**
+     * Asigna la cuantía de la tarifa según el tipo de tarifa.
+     *
+     * @param tipoTarifa El tipo de tarifa del alumno.
+     * @return La cuantía asignada.
+     */
 	@Override
 	public double asignarCuantiaTarifa(TipoTarifa tipoTarifa) {
 		switch (tipoTarifa) {
@@ -197,6 +245,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		}
 	}
 
+    /**
+     * Asigna una categoría según la edad del alumno.
+     *
+     * @param edad La edad del alumno.
+     * @return La categoría asignada.
+     */
 	@Override
 	public Categoria asignarCategoriaSegunEdad(int edad) {
 		TipoCategoria tipoCategoria;
@@ -219,6 +273,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return categoriaRepository.findByNombre(tipoCategoria.getNombre());
 	}
 
+    /**
+     * Asigna un grado según la edad del alumno y otros criterios.
+     *
+     * @param nuevoAlumnoDTO El objeto AlumnoDTO con los datos del alumno.
+     * @return El grado asignado.
+     */
 	@Override
 	public Grado asignarGradoSegunEdad(AlumnoDTO nuevoAlumnoDTO) {
 		LocalDate fechaNacimiento = nuevoAlumnoDTO.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault())
@@ -245,6 +305,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return gradoRepository.save(grado);
 	}
 
+    /**
+     * Calcula la edad a partir de la fecha de nacimiento.
+     *
+     * @param fechaNacimiento La fecha de nacimiento del alumno.
+     * @return La edad calculada.
+     */
 	@Override
 	public int calcularEdad(Date fechaNacimiento) {
 		LocalDate fechaNacimientoLocal = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -254,6 +320,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return edad;
 	}
 
+    /**
+     * Verifica si la fecha de nacimiento es válida.
+     *
+     * @param fechaNacimiento La fecha de nacimiento a verificar.
+     * @return true si la fecha de nacimiento es válida, false si no lo es.
+     */
 	@Override
 	public boolean fechaNacimientoValida(Date fechaNacimiento) {
 		Calendar fechaActualMenos3Anios = Calendar.getInstance();
@@ -265,6 +337,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return fechaNacimientoCalendar.before(fechaActualMenos3Anios);
 	}
 
+    /**
+     * Verifica si los datos del alumno son válidos.
+     *
+     * @param alumnoDTO El objeto AlumnoDTO con los datos del alumno.
+     * @return true si los datos son válidos, false si no lo son.
+     */
 	@Override
 	public boolean datosAlumnoValidos(AlumnoDTO alumnoDTO) {
 		if (alumnoDTO.getNombre() == null || alumnoDTO.getNombre().isEmpty() || alumnoDTO.getApellidos() == null
@@ -294,6 +372,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return true;
 	}
 
+    /**
+     * Mapea un objeto Alumno a un objeto AlumnoDTO.
+     *
+     * @param alumno El objeto Alumno a mapear.
+     * @return El objeto AlumnoDTO mapeado.
+     */
 	private AlumnoDTO mapeoParaAlumnoDTO(Alumno alumno) {
 		if (alumno == null) {
 			return null;

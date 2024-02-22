@@ -22,17 +22,33 @@ import com.taemoi.project.servicios.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Configuración de seguridad para la aplicación.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+	/**
+     * Inyección del filtro de JWT.
+     */
 	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+	/**
+     * Inyección del servicio de usuario.
+     */
 	@Autowired
 	private UsuarioService usuarioService;
 
+    /**
+     * Configuración del filtro de seguridad para las solicitudes HTTP.
+     *
+     * @param http El objeto HttpSecurity que se configura.
+     * @return Un objeto SecurityFilterChain configurado.
+     * @throws Exception Si hay un error durante la configuración.
+     */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
@@ -53,11 +69,21 @@ public class SecurityConfiguration {
 		return http.build();
 	}
 
+    /**
+     * Crea un codificador de contraseñas.
+     *
+     * @return Un objeto PasswordEncoder.
+     */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+    /**
+     * Crea un proveedor de autenticación.
+     *
+     * @return Un objeto AuthenticationProvider.
+     */
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -66,6 +92,13 @@ public class SecurityConfiguration {
 		return authProvider;
 	}
 
+    /**
+     * Obtiene el AuthenticationManager.
+     *
+     * @param config La configuración de autenticación.
+     * @return Un objeto AuthenticationManager.
+     * @throws Exception Si hay un error al obtener el AuthenticationManager.
+     */
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
