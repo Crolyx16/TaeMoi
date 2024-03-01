@@ -15,11 +15,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +34,6 @@ import com.taemoi.project.repositorios.GradoRepository;
 import com.taemoi.project.servicios.impl.AlumnoServiceImpl;
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
 public class AlumnoServiceImplTest {
 
 	@Mock

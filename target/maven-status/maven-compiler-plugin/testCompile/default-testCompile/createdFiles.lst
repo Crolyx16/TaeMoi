@@ -1,0 +1,11 @@
+com\taemoi\project\entidades\CategoriaTest.class
+com\taemoi\project\controladores\AdminControllerTest.class
+com\taemoi\project\servicios\AlumnoServiceImplTest.class
+com\taemoi\project\entidades\UsuarioTest.class
+com\taemoi\project\servicios\AuthenticationServiceImplTest.class
+com\taemoi\project\TaeMoiApplicationTests.class
+com\taemoi\project\entidades\GradoTest.class
+com\taemoi\project\controladores\AlumnoControllerTest.class
+com\taemoi\project\servicios\JwtServiceImplTest.class
+com\taemoi\project\entidades\AlumnoTest.class
+com\taemoi\project\controladores\AuthenticationControllerTest.class
